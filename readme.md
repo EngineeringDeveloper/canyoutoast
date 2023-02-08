@@ -6,8 +6,12 @@ _Web App which links with Strava to estimate your performance based on how well 
 
 ## Ideas
 
-- Strava integration
+- Strava integration    
+  - Strava API does not document the result of the Power Curve
+    - Will take last 6 weeks data and process on the front end
+    - While the processing is happening the toaster will prime?
 - Toast pops out of a toaster
+  - How to decide level of Toasting?
 - SSR for sharing
 
 ## Tooling

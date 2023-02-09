@@ -8,27 +8,34 @@ const redirect_uri =
 // get cookie on server load
 
 //** Authenticates Athlete from the token provided by OAuth */
-export async function stravaAuthenticate(token: string, SECRET_clientSecret: string) {
-	console.log('Secret', SECRET_clientSecret);
+export async function stravaAuthenticate(
+	token: string,
+	SECRET_clientSecret: string,
+	grant_type: 'authorization_code' | 'refresh_token'
+) {
 	const tokenURL = new URL(stravaTokenURL);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', SECRET_clientSecret);
 	tokenURL.searchParams.append('code', token);
-	tokenURL.searchParams.append('grant_type', 'authorization_code');
-	console.log(tokenURL.href);
+	tokenURL.searchParams.append('grant_type', grant_type);
 	const response = await fetch(tokenURL, {
-		method: 'POST',
+		method: 'POST'
 	});
 
 	if (!response.ok) {
-        console.error(response.statusText);
-        // todo Resolve request types
+		console.error(response.statusText);
+		// todo Resolve request types
 		return false;
 	}
+	// Todo Resolve Authentication errors?
 
-	const responseData: { refresh_token: string; access_token: string } = await response.json();
+	const responseData: AuthenticatedResponse = await response.json();
 	console.log(responseData);
-	return { access_token: responseData.access_token, refresh_token: responseData.refresh_token };
+	return {
+		access_token: responseData.access_token,
+		refresh_token: responseData.refresh_token,
+		expires_at: responseData.expires_at
+	};
 }
 
 //** Redirects the User to authorize with Strava */
@@ -41,15 +48,48 @@ export function stravaOAuth() {
 	authURL.searchParams.append('scope', 'profile:read_all');
 	window.location.assign(authURL);
 }
+export interface AuthenticatedResponse {
+	token_type: string;
+	expires_at: number;
+	expires_in: number;
+	refresh_token: string;
+	access_token: string;
+	athlete: Athlete;
+}
+
+export interface Athlete {
+	id: number;
+	username: string;
+	resource_state: number;
+	firstname: string;
+	lastname: string;
+	city: string;
+	state: string;
+	country: null;
+}
 
 export class Strava {
 	client_id = '44340';
-	stravaApiURL = 'https://www.strava.com/api/v3';
+	stravaApiURL = new URL('https://www.strava.com/api/v3');
 	refresh_token: string;
 	access_token: string;
 
 	constructor(access_token: string, refresh_token: string) {
 		this.access_token = access_token;
 		this.refresh_token = refresh_token;
+	}
+
+	getAthlete() {
+		const zoneURL = new URL('athlete', this.stravaApiURL);
+		return this.authGET(this.stravaApiURL);
+	}
+
+	authGET(url: URL) {
+		fetch(url, {
+			method: 'get',
+			headers: {
+				Authorization: `Bearer: ${this.access_token}`
+			}
+		});
 	}
 }

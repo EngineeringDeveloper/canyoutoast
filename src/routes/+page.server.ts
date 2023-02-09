@@ -27,16 +27,17 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 			status: false,
 			message: "Authentication Failed"
 		}
-	} else {
-		// try and get data from cookie
-		const access_token = cookies.get("access_token")
-		if (access_token) {
-			const refresh_token = cookies.get("refresh_token")
+	} 
+	// try and get data from cookie
+	const access_token = cookies.get("access_token")
+	if (access_token) {
+		const refresh_token = cookies.get("refresh_token")
 
-			return {access_token, refresh_token, status: true}
-		}
-		return {
-			status: false, message: null
-		};
+		return {access_token, refresh_token, status: true}
 	}
+	
+	// User needs to OAuth
+	return {
+		status: false, message: null
+	};
 }) satisfies PageLoad;

@@ -85,7 +85,8 @@ export class Strava {
 	}
 
 	authGET(url: URL) {
-		fetch(url, {
+		console.log(url)
+		return fetch(url, {
 			method: 'get',
 			headers: {
 				Authorization: `Bearer: ${this.access_token}`

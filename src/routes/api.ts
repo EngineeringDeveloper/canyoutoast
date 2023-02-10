@@ -84,7 +84,7 @@ export interface Athlete {
 
 export class Strava {
 	client_id = '44340';
-	stravaApiURL = new URL('https://www.strava.com/api/v3');
+	stravaApiURL = new URL('https://www.strava.com/api/v3/');
 	refresh_token: string;
 	access_token: string;
 
@@ -93,18 +93,22 @@ export class Strava {
 		this.refresh_token = refresh_token;
 	}
 
-	getAthlete() {
+	async getAthlete() {
 		const zoneURL = new URL('athlete', this.stravaApiURL);
-		return this.authGET(this.stravaApiURL);
+		return await this.authGET(zoneURL);
 	}
 
-	authGET(url: URL) {
+	async authGET(url: URL) {
 		console.log(url)
-		return fetch(url, {
+		const response = await fetch(url, {
 			method: 'get',
 			headers: {
-				Authorization: `Bearer: ${this.access_token}`
+				"Authorization": `Bearer ${this.access_token}`
 			}
 		});
+
+		if (response.ok) {
+			return await response.json()
+		}
 	}
 }

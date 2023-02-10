@@ -13,8 +13,8 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		const expires_at = Number(cookies.get("expires_at"))
 
 		console.log("Expires At:", expires_at)
-		if (expires_at < Date.now()) {
-			console.log("Token expired:", expires_at - Date.now())
+		if (expires_at < Date.now()/1000) {
+			console.log("Token expired:", expires_at - Date.now()/1000)
 			const authStatus = await stravaAuthenticate(refresh_token, SECRET_clientSecret, 'refresh_token')
 			console.log(authStatus)
 			if (authStatus) {

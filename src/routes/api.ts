@@ -1,3 +1,5 @@
+import type { Athlete } from "./types";
+
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
 const stravaTokenURL = 'https://www.strava.com/oauth/token';
@@ -34,7 +36,7 @@ export async function stravaAuthenticate(
 	return {
 		access_token: responseData.access_token,
 		refresh_token: responseData.refresh_token,
-		expires_at: responseData.expires_at,
+		expires_at: responseData.expires_at
 	};
 }
 
@@ -57,31 +59,6 @@ export interface AuthenticatedResponse {
 	athlete: Athlete;
 }
 
-export interface Athlete {
-	id:             number;
-	username:       null | string;
-	resource_state: number;
-	firstname:      string;
-	lastname:       string;
-	bio:            string;
-	city:           string;
-	state:          string;
-	country:        string;
-	sex:            string;
-	premium:        boolean;
-	summit:         boolean;
-	created_at:     string;
-	updated_at:     string;
-	badge_type_id:  number;
-	weight:         number;
-	profile_medium: string;
-	profile:        string;
-	friend:         null;
-	follower:       null;
-}
-
-
-
 export class Strava {
 	client_id = '44340';
 	stravaApiURL = new URL('https://www.strava.com/api/v3/');
@@ -99,16 +76,16 @@ export class Strava {
 	}
 
 	async authGET(url: URL) {
-		console.log(url)
+		console.log(url);
 		const response = await fetch(url, {
 			method: 'get',
 			headers: {
-				"Authorization": `Bearer ${this.access_token}`
+				Authorization: `Bearer ${this.access_token}`
 			}
 		});
 
 		if (response.ok) {
-			return await response.json()
+			return await response.json();
 		}
 	}
 }

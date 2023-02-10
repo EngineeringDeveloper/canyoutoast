@@ -1,17 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import type {binLength as BinLength} from "$lib/types"
 	import { Strava, stravaOAuth } from './api';
 	import { SyncLoader } from 'svelte-loading-spinners';
 
 	import type { PageData } from './$types';
+	import Toast from '../lib/toast.svelte';
 
 	export let data: PageData;
 
-	const params = $page.url.searchParams;
 	let api: Strava;
 	if (data.status) {
 		api = new Strava(data.access_token, data.refresh_token);
 	}
+
+    const bins: BinLength = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1300, 1400]
 </script>
 
 {#if data.status}
@@ -26,7 +28,7 @@
 	{#await api.getMaxWatts()}
 		<SyncLoader />
 	{:then power}
-		<div>{power} Watts</div>
+		<Toast value={power} bins={bins}></Toast>
 	{:catch error}
 		<div>{error}</div>
 	{/await}

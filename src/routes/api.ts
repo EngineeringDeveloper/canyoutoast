@@ -1,4 +1,4 @@
-import type { Activity, Athlete, fullAthlete } from './types';
+import type { Activity, Athlete, fullAthlete } from '$lib/types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';

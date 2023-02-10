@@ -71,8 +71,19 @@ export class Strava {
 	}
 
 	async getAthlete(): Promise<fullAthlete> {
-		const zoneURL = new URL('athlete', this.stravaApiURL);
-		return await this.authGET(zoneURL);
+		const athleteURL = new URL('athlete', this.stravaApiURL);
+		return await this.authGET(athleteURL);
+	}
+
+	async last6WeeksActiviteis() {
+		const sixWeeksInSeconds = 6*7*24*60*60
+		return await this.listAthleteActivities(Date.now()/1000 - sixWeeksInSeconds)
+	}
+
+	async listAthleteActivities(since: EpochTimeStamp) {
+		const activitiesURL = new URL("athlete/activities", this.stravaApiURL)
+		activitiesURL.searchParams.append("after", since.toFixed(0))
+		// How to deal with Pages of activities
 	}
 
 	async authGET(url: URL) {

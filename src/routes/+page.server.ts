@@ -11,6 +11,7 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const refresh_token = cookies.get("refresh_token")!
 		const expires_at = Number(cookies.get("expires_at"))
+
 		console.log("Expires At:", expires_at)
 		if (expires_at < Date.now()) {
 			console.log("Token expired:", expires_at - Date.now())
@@ -19,9 +20,7 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 			if (authStatus) {
 				// Front end can create an API object
 				const { access_token, refresh_token, expires_at } = authStatus
-				cookies.set("access_token", access_token)
-				cookies.set("refresh_token", refresh_token)
-				cookies.set("expires_at", String(expires_at))
+				setCookies(cookies, access_token,refresh_token, expires_at)
 
 				return {
 					access_token, refresh_token, status: true, message: null
@@ -37,8 +36,6 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		return {access_token, refresh_token, status: true}
 	}
 
-	// const pageParams = get(page).url.searchParams;
-
 	// if redirected from o-auth code will be in params
 	if (url.searchParams.has("code")) {
 		console.log("Detected OAuth Code, Trading for access_token")
@@ -48,9 +45,7 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		if (authStatus) {
 			// Front end can create an API object
 			const { access_token, refresh_token, expires_at } = authStatus
-			cookies.set("access_token", access_token)
-			cookies.set("refresh_token", refresh_token)
-			cookies.set("expires_at", String(expires_at))
+			setCookies(cookies, access_token,refresh_token, expires_at)
 
 			return {
 				access_token, refresh_token, status: true, message: null
@@ -70,3 +65,10 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		status: false, message: null
 	};
 }) satisfies PageLoad;
+
+
+function setCookies(cookies: Cookies, access_token: string, refresh_token: string, expires_at: number) {
+	cookies.set("access_token", access_token)
+	cookies.set("refresh_token", refresh_token)
+	cookies.set("expires_at", String(expires_at))
+}

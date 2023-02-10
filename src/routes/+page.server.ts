@@ -67,6 +67,8 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 }) satisfies PageLoad;
 
 
+
+
 function setCookies(cookies: Cookies, access_token: string, refresh_token: string, expires_at: number) {
 	cookies.set("access_token", access_token)
 	cookies.set("refresh_token", refresh_token)

@@ -1,4 +1,4 @@
-import type { Athlete, fullAthlete } from "./types";
+import type { Activity, Athlete, fullAthlete } from './types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -47,7 +47,7 @@ export function stravaOAuth() {
 	authURL.searchParams.append('redirect_uri', redirect_uri);
 	authURL.searchParams.append('response_type', 'code');
 	authURL.searchParams.append('approval_prompt', 'auto');
-	authURL.searchParams.append('scope', 'profile:read_all');
+	authURL.searchParams.append('scope', 'profile:read_all,activity:read_all');
 	window.location.assign(authURL);
 }
 export interface AuthenticatedResponse {
@@ -75,15 +75,30 @@ export class Strava {
 		return await this.authGET(athleteURL);
 	}
 
-	async last6WeeksActiviteis() {
-		const sixWeeksInSeconds = 6*7*24*60*60
-		return await this.listAthleteActivities(Date.now()/1000 - sixWeeksInSeconds)
+	async getMaxWatts() {
+		const activities = await this.last6WeeksActivities()
+		const hasPowerData = activities.filter((act) => act.device_watts)
+
+		const bestPower = hasPowerData.reduce((prev, current) => {
+			if (prev.max_watts > current.max_watts) {
+				return prev
+			}
+			return current
+		})
+
+		return bestPower.max_watts
+	}
+
+	async last6WeeksActivities(): Promise<Activity[]> {
+		const sixWeeksInSeconds = 6 * 7 * 24 * 60 * 60;
+		return await this.listAthleteActivities(Date.now() / 1000 - sixWeeksInSeconds);
 	}
 
 	async listAthleteActivities(since: EpochTimeStamp) {
-		const activitiesURL = new URL("athlete/activities", this.stravaApiURL)
-		activitiesURL.searchParams.append("after", since.toFixed(0))
+		const activitiesURL = new URL('athlete/activities', this.stravaApiURL);
+		activitiesURL.searchParams.append('after', since.toFixed(0));
 		// How to deal with Pages of activities
+		return await this.authGET(activitiesURL)
 	}
 
 	async authGET(url: URL) {
@@ -98,5 +113,7 @@ export class Strava {
 		if (response.ok) {
 			return await response.json();
 		}
+		
+		console.log(response)
 	}
 }

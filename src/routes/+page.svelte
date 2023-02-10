@@ -20,13 +20,12 @@
     {#await api.getAthlete()}
         <SyncLoader/>
     {:then data}
-        {JSON.stringify(data)}
+        <img src={data.profile} alt={"Athlete Profile Picture"} style="border-radius: 50%;"/>
     {:catch error}
         <div>{error}</div>
     {/await}
     
 {:else}
-<div>{JSON.stringify(data)}</div>
 <button type="button" on:click={stravaOAuth}>Authenticate with Strava</button>
 {/if}
 

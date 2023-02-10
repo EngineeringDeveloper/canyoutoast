@@ -16,7 +16,6 @@
 </script>
 
 {#if data.status}
-    <div>{JSON.stringify(data)}</div>
     {#await api.getAthlete()}
         <SyncLoader/>
     {:then data}

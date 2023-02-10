@@ -1,4 +1,4 @@
-import type { Athlete } from "./types";
+import type { Athlete, fullAthlete } from "./types";
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -70,7 +70,7 @@ export class Strava {
 		this.refresh_token = refresh_token;
 	}
 
-	async getAthlete() {
+	async getAthlete(): Promise<fullAthlete> {
 		const zoneURL = new URL('athlete', this.stravaApiURL);
 		return await this.authGET(zoneURL);
 	}

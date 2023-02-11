@@ -14,6 +14,22 @@ _Web App which links with Strava to estimate your performance based on how well 
   - How to decide level of Toasting?
 - SSR for sharing
 
+## Toasting
+
+720-850 Watt Toaster
+
+Min Power 400W?
+
+0 -       Grade 0
+1min      Grade 1
+1min 30s  Grade 2
+2min      Grade 3
+2min 30   Grade 5
+3min      Grade 6
+3min 30   Grade 7
+4min      Grade 9
+4min 30   Grade 10
+
 ## Tooling
 
 SvelteKit

@@ -16,10 +16,27 @@ _Web App which links with Strava to estimate your performance based on how well 
 
 ## Toasting
 
+
+Average 30s power over 400W	
+Data set with Watts
+  Take Moving average 30s
+  find effrots where average stays above 400W
+  Calculate Energy consumption over those efforts
+  take max energy
+
+Based on energy
+| Time Mins | Time S | Power | Enery  | Grade |
+|-----------|--------|-------|--------|-------|
+| 1.8       | 108    | 400   | 43200  | 1     |
+| 2.7       | 162    | 400   | 64800  | 2     |
+| 3.6       | 216    | 400   | 86400  | 3     |
+| 4.5       | 270    | 400   | 108000 | 5     |
+| 5.4       | 324    | 400   | 129600 | 6     |
+| 6.3       | 378    | 400   | 151200 | 7     |
+| 7.2       | 432    | 400   | 172800 | 9     |
+| 8.1       | 486    | 400   | 194400 | 10    |
+
 720-850 Watt Toaster
-
-Min Power 400W?
-
 0 -       Grade 0
 1min      Grade 1
 1min 30s  Grade 2

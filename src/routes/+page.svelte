@@ -12,9 +12,13 @@
 	let api: Strava;
 	if (data.status) {
 		api = new Strava(data.access_token, data.refresh_token);
+		console.log(api)
+		console.log(api.getActivityWattsStreams("8542979102"))
 	}
 
-	const bins: BinLength = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1300, 1400];
+	const bins: BinLength = [
+		30000, 43200, 64800, 86400, 97200, 108000, 129600, 151200, 162000, 172800, 194400
+];
 </script>
 
 {#if data.status}
@@ -34,7 +38,7 @@
 		<div>{error}</div>
 	{/await} -->
 	<div class="w-screen h-screen flex">
-		<Toaster><Toast value={60} bins={[1, 2, 3, 4, 5, 6, 7, 60, 200, 300, 1000]} /></Toaster>
+		<Toaster><Toast value={129599} {bins} /></Toaster>
 	</div>
 {:else}
 	<button type="button" on:click={stravaOAuth}>Authenticate with Strava</button>

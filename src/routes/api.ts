@@ -75,6 +75,13 @@ export class Strava {
 		return await this.authGET(athleteURL);
 	}
 
+	async getActivityWattsStreams(activityID: string): Promise<fullAthlete> {
+		const athleteURL = new URL(`activities/${activityID}/streams`, this.stravaApiURL);
+		athleteURL.searchParams.append("keys", "watts")
+		athleteURL.searchParams.append("keys_by_type", "true")
+		return await this.authGET(athleteURL);
+	}
+
 	async getMaxWatts() {
 		const activities = await this.last6WeeksActivities()
 		const hasPowerData = activities.filter((act) => act.device_watts)

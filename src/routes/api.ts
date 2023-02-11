@@ -124,3 +124,51 @@ export class Strava {
 		console.log(response)
 	}
 }
+
+function findBestEffort(watts: number[], powerMinimum: number, period:number): number  {
+	
+	// create the moving average Power
+	// padding the extents with 0's
+	const movingAverage = watts.map((_, index, array) => {
+		
+		// ends cut to 0
+		if (index < period -1) {
+			return 0
+		}
+		if (index > array.length - period ) {
+			return 0
+		}
+		let total = 0
+		array.slice(index - period, index + 1).forEach((value) => total += value)
+		return total/period
+	})
+
+	const efforts:number[] = []
+	let thisEffort: number[] = []
+	// Split the movingAverage into efforts > powerMinimum
+	movingAverage.forEach((value) => {
+		// push to this effort
+		if (value >= powerMinimum) {
+			thisEffort.push(value)
+			return
+		}
+		// effort has ended
+		let effortJoules = 0 
+		// because Watts * seconds = Joules and sampling is 1hz
+		thisEffort.forEach((value) => effortJoules += value)
+		efforts.push(effortJoules)
+		thisEffort = []
+	})
+
+	if (efforts.length == 0) {
+		return 0
+	}
+	// return the best effort
+	return max(array)
+}
+
+function max(array: number[]) {
+	return array.reduce((prev, current) => {
+		return prev > current? prev: current
+	})
+}

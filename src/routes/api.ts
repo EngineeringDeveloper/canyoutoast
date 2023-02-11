@@ -164,7 +164,7 @@ function findBestEffort(watts: number[], powerMinimum: number, period:number): n
 		return 0
 	}
 	// return the best effort
-	return max(array)
+	return max(efforts)
 }
 
 function max(array: number[]) {

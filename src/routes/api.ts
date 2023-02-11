@@ -1,4 +1,4 @@
-import type { Activity, Athlete, fullAthlete } from '$lib/types';
+import type { Activity, Athlete, fullAthlete, WattsStream } from '$lib/types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -75,7 +75,7 @@ export class Strava {
 		return await this.authGET(athleteURL);
 	}
 
-	async getActivityWattsStreams(activityID: string): Promise<fullAthlete> {
+	async getActivityWattsStreams(activityID: string): Promise<WattsStream> {
 		const athleteURL = new URL(`activities/${activityID}/streams`, this.stravaApiURL);
 		athleteURL.searchParams.append("keys", "watts")
 		athleteURL.searchParams.append("keys_by_type", "true")

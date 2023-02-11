@@ -75,6 +75,29 @@ export class Strava {
 		return await this.authGET(athleteURL);
 	}
 
+	async getBestEffortlast30() {
+		// 400W 30s moving average
+		const powerMinimum = 400
+		const period = 30
+		const activities = await this.last6WeeksActivities()
+
+		const bestEfforts = await Promise.all(activities.map(async (activity) => {
+			if (!activity.device_watts) {
+				// or other handeler?
+				// "you need power to toast bread"
+				return 0
+			}
+
+			const watts = await this.getActivityWattsStreams(String(activity.id))
+			return findBestEffort(watts.data, powerMinimum, period)
+		}))
+		if (bestEfforts.length == 0) {
+			return 0
+		}
+
+		return max(bestEfforts)
+	}
+
 	async getActivityWattsStreams(activityID: string): Promise<WattsStream> {
 		const athleteURL = new URL(`activities/${activityID}/streams`, this.stravaApiURL);
 		athleteURL.searchParams.append("keys", "watts")

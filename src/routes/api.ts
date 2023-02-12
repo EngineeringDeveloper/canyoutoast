@@ -64,6 +64,7 @@ export class Strava {
 	stravaApiURL = new URL('https://www.strava.com/api/v3/');
 	refresh_token: string;
 	access_token: string;
+	requestCount = 0;
 
 	constructor(access_token: string, refresh_token: string) {
 		this.access_token = access_token;
@@ -141,12 +142,26 @@ export class Strava {
 				Authorization: `Bearer ${this.access_token}`
 			}
 		});
+		this.requestCount += 1
+		console.log("Request Count", this.requestCount)
 
+		// this functiom will handle response types
 		if (response.ok) {
-			return await response.json();
+			return {
+				ok: true,
+				...await response.json()
+			}
 		}
 		
-		console.log(response)
+		console.log(response.status, response.statusText)
+		switch (response.status) {
+			case 429: 
+				// too many requests
+				return {
+					ok: false,
+					message: "too many requests, please Wait 15 Minutes"
+				}
+		}
 	}
 }
 

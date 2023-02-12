@@ -1,4 +1,4 @@
-import type { Activity, Athlete, fullAthlete, WattsStream } from '$lib/types';
+import type { Activity, Athlete, fullAthlete, wattsStream } from '$lib/types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -78,48 +78,52 @@ export class Strava {
 
 	async getBestEffortlast30() {
 		// 400W 30s moving average
-		const powerMinimum = 400
-		const period = 30
-		const activities = await this.last6WeeksActivities()
-		console.log("activities", activities)
-		const bestEfforts = await Promise.all(activities.map(async (activity) => {
-			if (!activity.device_watts) {
-				// or other handeler?
-				// "you need power to toast bread"
-				return 0
-			}
+		const powerMinimum = 400;
+		const period = 30;
 
-			const watts = await this.getActivityWattsStreams(String(activity.id))
-			console.log(activity.id, watts)
-			return findBestEffort(watts.data, powerMinimum, period)
-		}))
-		console.log("best", bestEfforts)
+		// last entry is ok: boolean not activity
+		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
+		console.log('activities', activities);
+		const bestEfforts = await Promise.all(
+			activities.map(async (activity) => {
+				if (!activity.device_watts) {
+					// or other handeler?
+					// "you need power to toast bread"
+					return 0;
+				}
+
+				const watts = await this.getActivityWattsStreams(String(activity.id));
+				// console.log(activity.id, watts);
+				return findBestEffort(watts[0].data, powerMinimum, period);
+			})
+		);
+		console.log('best', bestEfforts);
 		if (bestEfforts.length == 0) {
-			return 0
+			return 0;
 		}
 
-		return max(bestEfforts)
+		return max(bestEfforts);
 	}
 
-	async getActivityWattsStreams(activityID: string): Promise<WattsStream> {
+	async getActivityWattsStreams(activityID: string): Promise<wattsStream> {
 		const athleteURL = new URL(`activities/${activityID}/streams`, this.stravaApiURL);
-		athleteURL.searchParams.append("keys", "watts")
-		athleteURL.searchParams.append("keys_by_type", "true")
+		athleteURL.searchParams.append('keys', 'watts');
+		athleteURL.searchParams.append('keys_by_type', 'true');
 		return await this.authGET(athleteURL);
 	}
 
 	async getMaxWatts() {
-		const activities = await this.last6WeeksActivities()
-		const hasPowerData = activities.filter((act) => act.device_watts)
+		const activities = await this.last6WeeksActivities();
+		const hasPowerData = activities.filter((act) => act.device_watts);
 
 		const bestPower = hasPowerData.reduce((prev, current) => {
 			if (prev.max_watts > current.max_watts) {
-				return prev
+				return prev;
 			}
-			return current
-		})
+			return current;
+		});
 
-		return bestPower.max_watts
+		return bestPower.max_watts;
 	}
 
 	async last6WeeksActivities(): Promise<Activity[]> {
@@ -131,7 +135,7 @@ export class Strava {
 		const activitiesURL = new URL('athlete/activities', this.stravaApiURL);
 		activitiesURL.searchParams.append('after', since.toFixed(0));
 		// How to deal with Pages of activities
-		return await this.authGET(activitiesURL)
+		return await this.authGET(activitiesURL);
 	}
 
 	async authGET(url: URL) {
@@ -142,73 +146,71 @@ export class Strava {
 				Authorization: `Bearer ${this.access_token}`
 			}
 		});
-		this.requestCount += 1
-		console.log("Request Count", this.requestCount)
+		this.requestCount += 1;
+		console.log('Request Count', this.requestCount);
 
 		// this functiom will handle response types
 		if (response.ok) {
 			return {
 				ok: true,
-				...await response.json()
-			}
+				...(await response.json())
+			};
 		}
-		
-		console.log(response.status, response.statusText)
+
+		console.log(response.status, response.statusText);
 		switch (response.status) {
-			case 429: 
+			case 429:
 				// too many requests
 				return {
 					ok: false,
-					message: "too many requests, please Wait 15 Minutes"
-				}
+					message: 'too many requests, please Wait 15 Minutes'
+				};
 		}
 	}
 }
 
-function findBestEffort(watts: number[], powerMinimum: number, period:number): number  {
-	
+function findBestEffort(watts: number[], powerMinimum: number, period: number): number {
 	// create the moving average Power
 	// padding the extents with 0's
 	const movingAverage = watts.map((_, index, array) => {
-		
 		// ends cut to 0
-		if (index < period -1) {
-			return 0
+		if (index < period - 1) {
+			return 0;
 		}
-		if (index > array.length - period ) {
-			return 0
+		if (index > array.length - period) {
+			return 0;
 		}
-		let total = 0
-		array.slice(index - period, index + 1).forEach((value) => total += value)
-		return total/period
-	})
+		let total = 0;
+		array.slice(index - period, index + 1).forEach((value) => (total += value));
+		return total / period;
+	});
 
-	const efforts:number[] = []
-	let thisEffort: number[] = []
+	const efforts: number[] = [];
+	let thisEffort: number[] = [];
 	// Split the movingAverage into efforts > powerMinimum
 	movingAverage.forEach((value) => {
 		// push to this effort
 		if (value >= powerMinimum) {
-			thisEffort.push(value)
-			return
+			thisEffort.push(value);
+			return;
 		}
 		// effort has ended
-		let effortJoules = 0 
+		let effortJoules = 0;
 		// because Watts * seconds = Joules and sampling is 1hz
-		thisEffort.forEach((value) => effortJoules += value)
-		efforts.push(effortJoules)
-		thisEffort = []
-	})
+		thisEffort.forEach((value) => (effortJoules += value));
+		efforts.push(effortJoules);
+		thisEffort = [];
+	});
 
 	if (efforts.length == 0) {
-		return 0
+		return 0;
 	}
 	// return the best effort
-	return max(efforts)
+	return max(efforts);
 }
 
 function max(array: number[]) {
 	return array.reduce((prev, current) => {
-		return prev > current? prev: current
-	})
+		return prev > current ? prev : current;
+	});
 }

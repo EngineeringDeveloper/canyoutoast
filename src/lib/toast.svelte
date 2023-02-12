@@ -15,7 +15,7 @@
 	const toastSrc: toast[] = [
 		{text:"Thats just Bread", altText:"Thats just Bread", src:'/images/toast/0.png'}, // 0 Bread
 		{text:"I guess it's warm?", altText:"Warmed Bread", src:'/images/toast/3.png'},
-		{text:"If you look closely", altText:"Slig", src:'/images/toast/3.png'},
+		{text:"If you look closely", altText:"Slightly cooked if you look closely", src:'/images/toast/3.png'},
 		{text:"Just about!", altText:"Just about toast", src:'/images/toast/3.png'}, // 3
 		{text:"Keep Trying", altText:"almost toast keep trying", src:'/images/toast/3.png'},
 		{text:"Not quite there", altText:"Almost Done Toast", src:'/images/toast/6.png'},

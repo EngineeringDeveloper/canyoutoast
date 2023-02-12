@@ -80,7 +80,7 @@ export class Strava {
 		const powerMinimum = 400
 		const period = 30
 		const activities = await this.last6WeeksActivities()
-
+		console.log("activities", activities)
 		const bestEfforts = await Promise.all(activities.map(async (activity) => {
 			if (!activity.device_watts) {
 				// or other handeler?
@@ -89,8 +89,10 @@ export class Strava {
 			}
 
 			const watts = await this.getActivityWattsStreams(String(activity.id))
+			console.log(activity.id, watts)
 			return findBestEffort(watts.data, powerMinimum, period)
 		}))
+		console.log("best", bestEfforts)
 		if (bestEfforts.length == 0) {
 			return 0
 		}

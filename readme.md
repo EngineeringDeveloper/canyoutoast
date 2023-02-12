@@ -14,6 +14,10 @@ _Web App which links with Strava to estimate your performance based on how well 
   - How to decide level of Toasting?
 - SSR for sharing
 
+## Strava
+
+[Guidelines](https://developers.strava.com/guidelines/)
+
 ## Toasting
 
 

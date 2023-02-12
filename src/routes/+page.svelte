@@ -22,26 +22,18 @@
 </script>
 
 {#if data.status}
-	<!-- {#await api.getAthlete()}
+	{#await api.getBestEffortlast30()}
 		<SyncLoader />
 	{:then data}
-		<img src={data.profile} alt={'Athlete Profile Picture'} style="border-radius: 50%;" />
+		<!-- <img src={data.profile} alt={'Athlete Profile Picture'} style="border-radius: 50%;" /> -->
+		<div class="w-screen h-screen flex">
+			<Toaster><Toast value={data} {bins} /></Toaster>
+		</div>
 	{:catch error}
 		<div>{error}</div>
 	{/await}
-	<br />
-	{#await api.getMaxWatts()}
-		<SyncLoader />
-	{:then power}
-		<Toast value={power} bins={bins}></Toast>
-	{:catch error}
-		<div>{error}</div>
-	{/await} -->
-	<div class="w-screen h-screen flex">
-		<Toaster><Toast value={129599} {bins} /></Toaster>
-	</div>
 {:else}
-	<button type="button" on:click={stravaOAuth}>Authenticate with Strava</button>
+	<img src="images/btn_strava_connectwith_orange.svg" on:click={stravaOAuth} on:keypress={(key) => {stravaOAuth()}} alt={"Connect With Strava"}/>
 {/if}
 
 <style>

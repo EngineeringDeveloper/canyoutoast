@@ -35,15 +35,24 @@
         <slot />
     </div>
     <div>
-        <div class="relative top-0 left- bg-blue-600 w-128 h-72 big-round"></div>
-        <div class="absolute top-0 right-0 bg-blue-400 w-96 h-72 big-round"></div>
+        <div class="relative top-0 left- bg-red-600 w-128 h-72 big-round shadow-current shadow-lg"></div>
+        <div class="absolute top-0 right-0 bg-red-400 w-96 h-72 big-round"></div>
+        <div style = "border-radius:50%;" class="absolute top-5 right-6 bg-red-200 w-10 h-16 -rotate-45"></div>
+        <!-- <div class="absolute top-52 left-72 bg-gray-500 w-12 h-12 rounded-3xl border-8 border-slate-300 -translate-x-1"></div>
+        <div class="absolute top-40 left-72 bg-gray-500 w-10 h-10 rounded-3xl "></div>
+        <div class="absolute top-28 left-72 bg-gray-500 w-10 h-10 rounded-3xl"></div> -->
         <div class="absolute top-14 left-9 bg-gray-700 w-6 h-48 rounded-lg"></div>
         <div class="absolute top-14 left-12 bg-gray-800 w-6 h-48 rounded-lg"></div>
         <div class= {`absolute top-14 left-8 ${status} moving `}>
             <div class="absolute bg-gray-300 w-14 h-6 rounded-md"></div>
             <div class="relative bg-gray-100 w-12 h-6 rounded-md"></div>
         </div>
-        <div class="absolute top-15 -left-4 bg-gray-700 w-132 h-6 rounded-lg"></div>
+        <div style ="top: 19rem;" class="absolute left-3 bg-gray-700 w-6 h-6 rounded-xl"></div>
+        <div style ="top: 19rem;" class="absolute left-20 bg-gray-700 w-6 h-6 rounded-xl"></div>
+        <div style ="top: 19rem;" class="absolute right-3 bg-gray-700 w-6 h-6 rounded-xl"></div>
+        <div style ="top: 19rem;" class="absolute right-20 bg-gray-700 w-6 h-6 rounded-xl"></div>
+        <div class="absolute -left-4 bg-gray-700 w-52 h-6 rounded-lg"></div>
+        <div style="width: 26rem; left: 7rem;" class="absolute bg-gray-500 h-6 rounded-lg"></div>
     </div>
 </div>
 
@@ -79,7 +88,7 @@
     }
 
     .toast-waiting {
-        transform: translate(0, -100);
+        transform: translate(0, -100) skew(0deg, -15deg);
     }
     
     .toast-loading {

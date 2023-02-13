@@ -30,7 +30,7 @@
     <button on:click={finish_and_show}>Pop</button>
     <button on:click={demo}>All</button>
 </div>
-<div class="m-auto w-fit h-fit absolute inset-0 -z-10">
+<div class={`m-auto w-fit h-fit absolute inset-0 -z-10 ${status}-shake`}>
     <div class= {`absolute -top-10 left-44 w-56 h-56 toast-${status} moving text-transparent`}>
         <slot />
     </div>
@@ -39,7 +39,7 @@
         <div class="absolute top-0 right-0 bg-blue-400 w-96 h-72 big-round"></div>
         <div class="absolute top-14 left-9 bg-gray-700 w-6 h-48 rounded-lg"></div>
         <div class="absolute top-14 left-12 bg-gray-800 w-6 h-48 rounded-lg"></div>
-        <div class= {`absolute top-14 left-8 ${status} moving`}>
+        <div class= {`absolute top-14 left-8 ${status} moving `}>
             <div class="absolute bg-gray-300 w-14 h-6 rounded-md"></div>
             <div class="relative bg-gray-100 w-12 h-6 rounded-md"></div>
         </div>
@@ -63,6 +63,11 @@
     
     .loading {
         transform: translate(0, 160px) ;
+    }
+
+    .loading-shake {
+        animation: shake 0.5s;
+        animation-iteration-count: infinite;
     }
 
     .finished {
@@ -94,5 +99,19 @@
         height: 40rem;
         color: black;
     }
+
+    @keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
 
 </style>

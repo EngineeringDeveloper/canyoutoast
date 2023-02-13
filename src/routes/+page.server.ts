@@ -39,6 +39,17 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 	// if redirected from o-auth code will be in params
 	if (url.searchParams.has("code")) {
 		console.log("Detected OAuth Code, Trading for access_token")
+		console.log(url.searchParams.entries())
+		//check the scope
+		const scope = url.searchParams.get("scope")
+		// 'read,activity:read_all,profile:read_all'
+		if (!scope?.split(",").find((v) => v == "profile:read_all")) {
+			return {
+				status: false,
+				message: "User did not allow read permission"
+			}
+		}
+
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const authStatus = await stravaAuthenticate(url.searchParams.get("code")!, SECRET_clientSecret, 'authorization_code')
 		console.log(authStatus)

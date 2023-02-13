@@ -85,9 +85,11 @@
 <div class="grid place-items-center h-screen">
 	<Toaster {status}><Toast value={energy} {bins} /></Toaster>
 	{#if !data.status}
+	<div
+	class="animate-bounce mx-auto mt-52"
+	>
 		<img
 			style="width: 60rem;"
-			class="animate-bounce mx-auto mt-52"
 			src="images/btn_strava_connectwith_orange.svg"
 			on:click={stravaOAuth}
 			on:keypress={(key) => {
@@ -95,6 +97,10 @@
 			}}
 			alt={'Connect With Strava'}
 		/>
+		{#if data.message}
+		<div class="text-center">{data.message}</div>
+		{/if}
+	</div>
 	{/if}
 </div>
 

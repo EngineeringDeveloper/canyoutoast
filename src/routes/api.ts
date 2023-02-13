@@ -47,7 +47,7 @@ export function stravaOAuth() {
 	authURL.searchParams.append('redirect_uri', redirect_uri);
 	authURL.searchParams.append('response_type', 'code');
 	authURL.searchParams.append('approval_prompt', 'auto');
-	authURL.searchParams.append('scope', 'profile:read_all,activity:read_all');
+	authURL.searchParams.append('scope', 'activity:read_all'); // 'profile:read_all,activity:read_all'
 	window.location.assign(authURL);
 }
 export interface AuthenticatedResponse {

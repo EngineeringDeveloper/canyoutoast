@@ -5,7 +5,7 @@ const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
 const stravaTokenURL = 'https://www.strava.com/oauth/token';
 const client_id = '44340';
 const redirect_uri =
-	process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:5173' : 'canyoutoast.com';
+import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'canyoutoast.com';
 
 // get cookie on server load
 

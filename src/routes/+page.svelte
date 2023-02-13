@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { binLength as BinLength } from '$lib/types';
 	import { Strava, stravaOAuth } from './api';
-	import { SyncLoader } from 'svelte-loading-spinners';
 
 	import type { PageData } from './$types';
 	import Toast from '../lib/toast.svelte';
@@ -17,11 +16,12 @@
 
 	let energy = 0;
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
-		
+
 	if (data.status) {
 		status = 'loading';
 		api = new Strava(data.access_token, data.refresh_token);
 		api.getBestEffortlast30().then((value) => {
+			console.log(value)
 			energy = value;
 			status = 'finished';
 			setTimeout(() => {
@@ -31,6 +31,16 @@
 	}
 
 </script>
+
+{#if import.meta.env.DEV}
+<div class="absolute top-0 left-0 mx-5 my-5 px-5">
+	<div>Page Data: {JSON.stringify(data)}</div>
+	<div>Api: {JSON.stringify(api, null, "\t")}</div>
+	<div>Status {status}</div>
+	<div>Energy {energy}</div>
+</div>	
+{/if}
+
 
 <div class="grid place-items-center h-screen">
 	<Toaster {status}><Toast value={energy} {bins} /></Toaster>

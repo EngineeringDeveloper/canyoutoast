@@ -45,7 +45,7 @@
         return 11
 	}
 
-	let toast = toastSrc[binValue(value, bins)]
+	$: toast = toastSrc[binValue(value, bins)]
 
 </script>
 

@@ -2,34 +2,9 @@
     // https://www.youtube.com/watch?v=G0HtHr46Awg&ab_channel=CodingArtist
 
     export let status: "waiting" | "loading" |  "finished" | "display"= "waiting"
-    function demo() {
-        status = "waiting"
-        setTimeout(() => {
-            status = "loading"
-            setTimeout(() => {
-                status = "finished"
-                setTimeout(() => {  
-                    status = "display"
-                }, 1000)
-            }, 3000)
-        }, 1000)
-    }
 
-    function finish_and_show() {
-        status = "finished"
-        setTimeout(() => {  
-            status = "display"
-        }, 1000)
-    }
 </script>
-<div class="absolute top-14">
-    <button on:click={ ()=> status = "waiting"}>waiting</button>
-    <button on:click={ ()=> status = "loading"}>loading</button>
-    <button on:click={ ()=> status = "finished"}>finished</button>
-    <button on:click={ ()=> status = "display"}>display</button>
-    <button on:click={finish_and_show}>Pop</button>
-    <button on:click={demo}>All</button>
-</div>
+
 <div class={`m-auto w-fit h-fit absolute inset-0 -z-10 ${status}-shake shadow-current shadow-lg big-round`}>
     <div class= {`absolute -top-10 left-44 w-56 h-56 toast-${status} moving text-transparent`}>
         <slot />

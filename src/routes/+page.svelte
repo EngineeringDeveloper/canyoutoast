@@ -16,8 +16,16 @@
 
 	let energy = 0;
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
+	
+	let devAllow = import.meta.env.PROD
 
 	if (data.status) {
+		if (devAllow) {
+			runMain();
+		}
+	}
+
+	function runMain() {
 		setTimeout(() => {
 			status = 'loading';
 			api = new Strava(data.access_token, data.refresh_token);
@@ -35,6 +43,25 @@
 			});
 		}, 1000);
 	}
+	function demo() {
+        status = "waiting"
+        setTimeout(() => {
+            status = "loading"
+            setTimeout(() => {
+                status = "finished"
+                setTimeout(() => {  
+                    status = "display"
+                }, 1000)
+            }, 3000)
+        }, 1000)
+    }
+
+    function finish_and_show() {
+        status = "finished"
+        setTimeout(() => {  
+            status = "display"
+        }, 1000)
+    }
 </script>
 
 {#if import.meta.env.DEV}
@@ -43,6 +70,15 @@
 		<div>Api: {JSON.stringify(api, null, '\t')}</div>
 		<div>Status: {status}</div>
 		<div>Energy: <input type="number" bind:value={energy} /></div>
+		<div>run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} /></div>
+		<div >
+			<button on:click={ ()=> status = "waiting"}>waiting</button>
+			<button on:click={ ()=> status = "loading"}>loading</button>
+			<button on:click={ ()=> status = "finished"}>finished</button>
+			<button on:click={ ()=> status = "display"}>display</button>
+			<button on:click={finish_and_show}>Pop</button>
+			<button on:click={demo}>All</button>
+		</div>
 	</div>
 {/if}
 

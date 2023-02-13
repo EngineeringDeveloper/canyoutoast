@@ -21,7 +21,9 @@
 		status = 'loading';
 		api = new Strava(data.access_token, data.refresh_token);
 		api.getBestEffortlast30().then((value) => {
-			console.log(value)
+			// svelte force update on object
+			api = api
+			console.log("Best Energy", value)
 			energy = value;
 			status = 'finished';
 			setTimeout(() => {
@@ -33,11 +35,11 @@
 </script>
 
 {#if import.meta.env.DEV}
-<div class="absolute top-0 left-0 mx-5 my-5 px-5">
+<div class="absolute top-0 left-0 mx-5 my-5 px-5 w-96">
 	<div>Page Data: {JSON.stringify(data)}</div>
 	<div>Api: {JSON.stringify(api, null, "\t")}</div>
-	<div>Status {status}</div>
-	<div>Energy {energy}</div>
+	<div>Status: {status}</div>
+	<div>Energy: {energy}</div>
 </div>	
 {/if}
 

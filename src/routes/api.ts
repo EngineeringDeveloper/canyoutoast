@@ -78,7 +78,7 @@ export class Strava {
 
 	async getBestEffortlast30() {
 		// 400W 30s moving average
-		const powerMinimum = 400;
+		const powerMinimum = 350;
 		const period = 30;
 
 		// last entry is ok: boolean not activity

@@ -18,31 +18,33 @@
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
 	if (data.status) {
-		status = 'loading';
-		api = new Strava(data.access_token, data.refresh_token);
-		api.getBestEffortlast30().then((value) => {
-			// svelte force update on object
-			api = api
-			console.log("Best Energy", value)
-			energy = value;
-			status = 'finished';
-			setTimeout(() => {
-				status = 'display';
-			}, 1000);
-		});
+		setTimeout(() => {
+			status = 'loading';
+			api = new Strava(data.access_token, data.refresh_token);
+			api.getBestEffortlast30().then((value) => {
+				// svelte force update on object
+				api = api;
+				console.log('Best Energy', value);
+				energy = value;
+				setTimeout(() => {
+					status = 'finished';
+					setTimeout(() => {
+						status = 'display';
+					}, 1000);
+				}, 1000);
+			});
+		}, 1000);
 	}
-
 </script>
 
 {#if import.meta.env.DEV}
-<div class="absolute top-0 left-0 mx-5 my-5 px-5 w-96">
-	<div>Page Data: {JSON.stringify(data)}</div>
-	<div>Api: {JSON.stringify(api, null, "\t")}</div>
-	<div>Status: {status}</div>
-	<div>Energy: {energy}</div>
-</div>	
+	<div class="absolute top-0 left-0 mx-5 my-5 px-5 w-96">
+		<div>Page Data: {JSON.stringify(data)}</div>
+		<div>Api: {JSON.stringify(api, null, '\t')}</div>
+		<div>Status: {status}</div>
+		<div>Energy: <input type="number" bind:value={energy} /></div>
+	</div>
 {/if}
-
 
 <div class="grid place-items-center h-screen">
 	<Toaster {status}><Toast value={energy} {bins} /></Toaster>

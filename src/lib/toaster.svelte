@@ -30,7 +30,7 @@
     <button on:click={finish_and_show}>Pop</button>
     <button on:click={demo}>All</button>
 </div>
-<div class={`m-auto w-fit h-fit absolute inset-0 -z-10 ${status}-shake`}>
+<div class={`m-auto w-fit h-fit absolute inset-0 -z-10 ${status}-shake shadow-current shadow-lg big-round`}>
     <div class= {`absolute -top-10 left-44 w-56 h-56 toast-${status} moving text-transparent`}>
         <slot />
     </div>

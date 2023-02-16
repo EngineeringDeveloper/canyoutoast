@@ -89,6 +89,7 @@
 	class="animate-bounce mx-auto mt-52"
 	>
 		<img
+			class="cursor-pointer"
 			style="width: 60rem;"
 			src="images/btn_strava_connectwith_orange.svg"
 			on:click={stravaOAuth}

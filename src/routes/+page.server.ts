@@ -43,13 +43,13 @@ export const load = (async ({ cookies, url }: {cookies:Cookies, url:URL}) => {
 		//check the scope
 		const scope = url.searchParams.get("scope")
 		// 'read,activity:read_all,profile:read_all'
-		if (!scope?.split(",").find((v) => v == "profile:read_all")) {
+		if (!scope?.split(",").find((v) => v == "activity:read_all")) {
 			return {
 				status: false,
 				message: "User did not allow read permission"
 			}
 		}
-
+		
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const authStatus = await stravaAuthenticate(url.searchParams.get("code")!, SECRET_clientSecret, 'authorization_code')
 		console.log(authStatus)

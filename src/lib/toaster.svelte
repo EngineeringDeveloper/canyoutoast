@@ -4,11 +4,11 @@
 	export let status: 'waiting' | 'loading' | 'finished' | 'display' = 'waiting';
 </script>
 
-<div class={`absolute w-132 h-96 -z-10 ${status}-shake`}>
-	<div
-		style="width: 45%; height: 45%"
-		class={`absolute -top-10 left-44 toast-${status} moving text-transparent`}
-	>
+<div
+	style="aspect-ratio: 1.41;"
+	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 -z-10 ${status}-shake`}
+>
+	<div style = "left: 35%; top: -10%" class={`absolute toast-${status} moving text-transparent`}>
 		<slot />
 	</div>
 	<div class="absolute w-full h-full">
@@ -18,12 +18,18 @@
 		/>
 		<div style="width: 80%; height: 75%;" class="absolute top-0 right-0 bg-red-400 big-round" />
 		<div
-			style="width: 5%; height: 15%; border-radius:50%;"
-			class="absolute top-5 right-6 bg-red-200 -rotate-45"
+			style="width: 5%; height: 15%; border-radius: 50%; top: 2%; right: 4%"
+			class="absolute bg-red-200 -rotate-45"
 		/>
-		<div style="width: 5%; height: 50%" class="absolute top-14 left-9 bg-gray-700 rounded-lg" />
-		<div style="width: 5%; height: 50%" class="absolute top-14 left-12 bg-gray-800 rounded-lg" />
-		<div style="width: 20%; height: 5%" class={`absolute top-14 left-8 ${status} moving `}>
+		<div
+			style="width: 5%; height: 50%; top: 15%; left: 6%;;"
+			class="absolute bg-gray-700 rounded-lg"
+		/>
+		<div
+			style="width: 5%; height: 50%;  top: 15%; left: 8%;;"
+			class="absolute bg-gray-800 rounded-lg"
+		/>
+		<div style="width: 20%; height: 5%; top: 15%; left: 5%;;" class={`absolute ${status} moving `}>
 			<div style="width: 50%; height: 100%" class="absolute bg-gray-300 rounded-md" />
 			<div style="width: 40%; height: 100%" class="relative bg-gray-100 rounded-md" />
 		</div>
@@ -35,7 +41,7 @@
 			<div style="left: 5%;" class="absolute feet bg-gray-700 rounded-xl" />
 			<div style="left: 20%;" class="absolute feet bg-gray-700 rounded-xl" />
 			<div style="left: 75%;" class="absolute feet bg-gray-700 rounded-xl" />
-			<div style="left: 90%;"class="absolute feet bg-gray-700 rounded-xl" />
+			<div style="left: 90%;" class="absolute feet bg-gray-700 rounded-xl" />
 			<div style="width: 85%; height: 50%; right: -2.5%" class="absolute bg-gray-500 rounded-lg" />
 		</div>
 	</div>
@@ -49,7 +55,8 @@
 	}
 
 	.big-round {
-		border-radius: 80px 80px 0 0;
+		border-top-left-radius: 10% 15%;
+		border-top-right-radius: 10% 15%;
 	}
 
 	.moving {
@@ -80,23 +87,29 @@
 
 	.toast-waiting {
 		transform: translate(0, -100) skew(0deg, -15deg);
+		width: 45%;
+		height: 45%;
 	}
 
 	.toast-loading {
 		transform: translate(0, 80px);
+		width: 45%;
+		height: 45%;
 	}
 
 	.toast-finished {
 		transform: translate(0, -300px);
 		transition: all 0.5s;
+		width: 45%;
+		height: 45%;
 	}
 
 	.toast-display {
 		transform: translate(-15rem, -120px) rotate(5deg);
 		transition: all 1s;
 		z-index: 1;
-		width: 40rem;
-		height: 40rem;
+		width: 120%;
+		height: 120%;
 		color: black;
 	}
 

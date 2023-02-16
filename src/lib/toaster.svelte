@@ -5,7 +5,7 @@
 </script>
 
 <div
-	style="aspect-ratio: 1.41;"
+	style="aspect-ratio: 1.41; margin-top: 30%"
 	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 -z-10 ${status}-shake`}
 >
 	<div style = "left: 35%; top: -10%" class={`absolute toast-${status} moving text-transparent`}>
@@ -69,7 +69,7 @@
 	}
 
 	.loading {
-		transform: translate(0, 160px);
+		transform: translate(0, 850%);
 	}
 
 	.loading-shake {
@@ -86,26 +86,26 @@
 	}
 
 	.toast-waiting {
-		transform: translate(0, -100) skew(0deg, -15deg);
+		transform: skew(2deg, 2deg);
 		width: 45%;
 		height: 45%;
 	}
 
 	.toast-loading {
-		transform: translate(0, 80px);
+		transform: translate(0, 50%);
 		width: 45%;
 		height: 45%;
 	}
 
 	.toast-finished {
-		transform: translate(0, -300px);
+		transform: translate(0, -180%);
 		transition: all 0.5s;
 		width: 45%;
 		height: 45%;
 	}
 
 	.toast-display {
-		transform: translate(-15rem, -120px) rotate(5deg);
+		transform: translate(-35%, -45%) rotate(5deg);
 		transition: all 1s;
 		z-index: 1;
 		width: 120%;

@@ -48,12 +48,11 @@
 	$: toast = toastSrc[binValue(value, bins)]
 </script>
 
-<div class="relative">
-	
+<div class="absolute">
 {#if import.meta.env.DEV}
-	<div style = "font-size: 50px" class="relative -top-10 text-center">{toast.text}</div>
+	<div style = "font-size: 50px; top: 100%;" class="relative text-center">{toast.text}</div>
 {/if}
-	<img class="absolute top-0" src ={toast.src} alt={toast.altText}/>
+	<img class="relative top-0" src ={toast.src} alt={toast.altText}/>
 </div>
 
 <style>

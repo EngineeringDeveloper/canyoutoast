@@ -8,7 +8,7 @@
 	style="aspect-ratio: 1.41; margin-top: 30%"
 	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 -z-10 ${status}-shake`}
 >
-	<div style = "left: 35%; top: -10%" class={`absolute toast-${status} moving text-transparent`}>
+	<div style = "left: 35%; top: -110%" class={`absolute toast-${status} moving text-transparent`}>
 		<slot />
 	</div>
 	<div class="absolute w-full h-full">
@@ -105,8 +105,8 @@
 	}
 
 	.toast-display {
-		transform: translate(-35%, -45%) rotate(5deg);
-		transition: all 1s;
+        transition: transform 1s, width 1s, height 1s, color 3s 1s;
+		transform: translate(-30%, 0%) rotate(5deg);
 		z-index: 1;
 		width: 120%;
 		height: 120%;

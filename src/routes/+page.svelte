@@ -6,6 +6,7 @@
 	import Toast from '../lib/toast.svelte';
 	import Toaster from '../lib/toaster.svelte';
 	import type { ComponentProps } from 'svelte';
+	import Footer from '$lib/footer.svelte';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -89,6 +90,7 @@
 	class="animate-bounce mx-auto mt-52"
 	>
 		<img
+			class="cursor-pointer"
 			style="width: 60rem;"
 			src="images/btn_strava_connectwith_orange.svg"
 			on:click={stravaOAuth}
@@ -102,6 +104,7 @@
 		{/if}
 	</div>
 	{/if}
+	<Footer/>
 </div>
 
 <style>

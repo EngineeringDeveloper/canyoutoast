@@ -1,101 +1,158 @@
 <script lang="ts">
-    // https://www.youtube.com/watch?v=G0HtHr46Awg&ab_channel=CodingArtist
+	// https://www.youtube.com/watch?v=G0HtHr46Awg&ab_channel=CodingArtist
 
-    export let status: "waiting" | "loading" |  "finished" | "display"= "waiting"
-
+	export let status: 'waiting' | 'loading' | 'finished' | 'display' = 'waiting';
 </script>
 
-<div class={`m-auto w-fit h-fit absolute inset-0 -z-10 ${status}-shake shadow-current shadow-lg big-round`}>
-    <div class= {`absolute -top-10 left-44 w-56 h-56 toast-${status} moving text-transparent`}>
-        <slot />
-    </div>
-    <div>
-        <div class="relative top-0 left- bg-red-600 w-128 h-72 big-round shadow-current shadow-lg"></div>
-        <div class="absolute top-0 right-0 bg-red-400 w-96 h-72 big-round"></div>
-        <div style = "border-radius:50%;" class="absolute top-5 right-6 bg-red-200 w-10 h-16 -rotate-45"></div>
-        <!-- <div class="absolute top-52 left-72 bg-gray-500 w-12 h-12 rounded-3xl border-8 border-slate-300 -translate-x-1"></div>
-        <div class="absolute top-40 left-72 bg-gray-500 w-10 h-10 rounded-3xl "></div>
-        <div class="absolute top-28 left-72 bg-gray-500 w-10 h-10 rounded-3xl"></div> -->
-        <div class="absolute top-14 left-9 bg-gray-700 w-6 h-48 rounded-lg"></div>
-        <div class="absolute top-14 left-12 bg-gray-800 w-6 h-48 rounded-lg"></div>
-        <div class= {`absolute top-14 left-8 ${status} moving `}>
-            <div class="absolute bg-gray-300 w-14 h-6 rounded-md"></div>
-            <div class="relative bg-gray-100 w-12 h-6 rounded-md"></div>
-        </div>
-        <div style ="top: 19rem;" class="absolute left-3 bg-gray-700 w-6 h-6 rounded-xl"></div>
-        <div style ="top: 19rem;" class="absolute left-20 bg-gray-700 w-6 h-6 rounded-xl"></div>
-        <div style ="top: 19rem;" class="absolute right-3 bg-gray-700 w-6 h-6 rounded-xl"></div>
-        <div style ="top: 19rem;" class="absolute right-20 bg-gray-700 w-6 h-6 rounded-xl"></div>
-        <div class="absolute -left-4 bg-gray-700 w-52 h-6 rounded-lg"></div>
-        <div style="width: 26rem; left: 7rem;" class="absolute bg-gray-500 h-6 rounded-lg"></div>
-    </div>
+<div
+	style="aspect-ratio: 1.41; margin-top: 20%"
+	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 2xl:w-142 -z-10 ${status}-shake`}
+>
+<!--  -->
+	<div class={`absolute toast toast-${status} moving text-transparent`}>
+		<slot />
+	</div>
+	<div class="absolute w-full h-full">
+		<div
+			style="width: 95%; height: 75%;"
+			class="relative top-0 bg-red-600 big-round shadow-current shadow-lg"
+		/>
+		<div style="width: 80%; height: 75%;" class="absolute top-0 right-0 bg-red-400 big-round" />
+		<div
+			style="width: 5%; height: 15%; border-radius: 50%; top: 2%; right: 4%"
+			class="absolute bg-red-200 -rotate-45"
+		/>
+		<div
+			style="width: 5%; height: 50%; top: 15%; left: 6%;;"
+			class="absolute bg-gray-700 rounded-lg"
+		/>
+		<div
+			style="width: 5%; height: 50%;  top: 15%; left: 8%;;"
+			class="absolute bg-gray-800 rounded-lg"
+		/>
+		<div style="width: 20%; height: 5%; top: 15%; left: 5%;;" class={`absolute ${status} moving `}>
+			<div style="width: 50%; height: 100%" class="absolute bg-gray-300 rounded-md" />
+			<div style="width: 40%; height: 100%" class="relative bg-gray-100 rounded-md" />
+		</div>
+		<div style="width:100%; height: 10%" class="absolute top-15">
+			<div
+				style="width:105%; height: 50%; left: -2.5%"
+				class="absolute  bg-gray-700 top-0 rounded-xl"
+			/>
+			<div style="left: 5%;" class="absolute feet bg-gray-700 rounded-xl" />
+			<div style="left: 20%;" class="absolute feet bg-gray-700 rounded-xl" />
+			<div style="left: 75%;" class="absolute feet bg-gray-700 rounded-xl" />
+			<div style="left: 90%;" class="absolute feet bg-gray-700 rounded-xl" />
+			<div style="width: 85%; height: 50%; right: -2.5%" class="absolute bg-gray-500 rounded-lg" />
+		</div>
+	</div>
 </div>
 
 <style>
-    .big-round { 
-        border-radius: 80px 80px 0 0;
-    }
+	.toast {
+		left: 35%; 
+		bottom: 70%;
+		width: 45%;
+		height: 45%;
+	}
 
-    .moving {
-        transition: all 1.5s;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
-    }
+	.feet {
+		width: 4%;
+		height: 70%;
+		top: 30%;
+	}
 
-    .waiting {
-        transform: translate(0);
-    }
-    
-    .loading {
-        transform: translate(0, 160px) ;
-    }
+	.big-round {
+		border-top-left-radius: 10% 15%;
+		border-top-right-radius: 10% 15%;
+	}
 
-    .loading-shake {
-        animation: shake 0.5s;
-        animation-iteration-count: infinite;
-    }
+	.moving {
+		transition: all 1.5s;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
 
-    .finished {
-        transform: translate(0);
-        transition: all 0.5s;
-    }
-    .display {
-        transform: translate(0);
-    }
+	.waiting {
+		transform: translate(0);
+	}
 
-    .toast-waiting {
-        transform: translate(0, -100) skew(0deg, -15deg);
-    }
-    
-    .toast-loading {
-        transform: translate(0, 80px) ;
-    }
+	.loading {
+		transform: translate(0, 850%);
+	}
 
-    .toast-finished {
-        transform: translate(0, -300px);
-        transition: all 0.5s;
-    }
+	.loading-shake {
+		animation: shake 0.5s;
+		animation-iteration-count: infinite;
+	}
 
-    .toast-display {
-        transform: translate(-15rem, -120px) rotate(5deg);
-        transition: all 1s;
-        z-index: 1;
-        width: 40rem;
-        height: 40rem;
-        color: black;
-    }
+	.finished {
+		transform: translate(0);
+		transition: all 0.5s;
+	}
+	.display {
+		transform: translate(0);
+	}
 
-    @keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
+	.toast-waiting {
+		width: 45%;
+		height: 45%;
+	}
 
+	.toast-loading {
+		transform: translate(0, 50%);
+		width: 45%;
+		height: 45%;
+	}
+
+	.toast-finished {
+		transform: translate(0, -180%);
+		transition: all 0.5s;
+		width: 45%;
+		height: 45%;
+	}
+
+	.toast-display {
+        transition: transform 1s, width 1s, height 1s, color 3s 1s;
+		transform: translate(-32.5%, 20%) rotate(5deg);
+		z-index: 1;
+		width: 120%;
+		height: 120%;
+		color: black;
+	}
+
+	@keyframes shake {
+		0% {
+			transform: translate(1px, 1px) rotate(0deg);
+		}
+		10% {
+			transform: translate(-1px, -2px) rotate(-1deg);
+		}
+		20% {
+			transform: translate(-3px, 0px) rotate(1deg);
+		}
+		30% {
+			transform: translate(3px, 2px) rotate(0deg);
+		}
+		40% {
+			transform: translate(1px, -1px) rotate(1deg);
+		}
+		50% {
+			transform: translate(-1px, 2px) rotate(-1deg);
+		}
+		60% {
+			transform: translate(-3px, 1px) rotate(0deg);
+		}
+		70% {
+			transform: translate(3px, 1px) rotate(-1deg);
+		}
+		80% {
+			transform: translate(-1px, -1px) rotate(1deg);
+		}
+		90% {
+			transform: translate(1px, 2px) rotate(0deg);
+		}
+		100% {
+			transform: translate(1px, -2px) rotate(-1deg);
+		}
+	}
 </style>

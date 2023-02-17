@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@rodneylab/svelte-social-icons": "^0.0.25",
 		"@sveltejs/adapter-vercel": "^2.0.2"
 	}
 }

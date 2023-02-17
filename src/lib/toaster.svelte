@@ -5,8 +5,8 @@
 </script>
 
 <div
-	style="aspect-ratio: 1.41; margin-top: 30%"
-	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 -z-10 ${status}-shake`}
+	style="aspect-ratio: 1.41; margin-top: 20%"
+	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 2xl:w-142 -z-10 ${status}-shake`}
 >
 <!--  -->
 	<div class={`absolute toast toast-${status} moving text-transparent`}>

@@ -50,9 +50,9 @@
 
 <div class="absolute">
 {#if import.meta.env.DEV}
-	<div style = "font-size: 50px; top: 100%;" class="relative text-center">{toast.text}</div>
+	<div style = "font-size: 50px; bottom: 105%;" class="absolute text-center w-full">{toast.text}</div>
 {/if}
-	<img class="relative top-0" src ={toast.src} alt={toast.altText}/>
+	<img class="apsolute top-0" src ={toast.src} alt={toast.altText}/>
 </div>
 
 <style>

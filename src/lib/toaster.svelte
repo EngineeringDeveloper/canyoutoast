@@ -113,7 +113,7 @@
 
 	.toast-display {
         transition: transform 1s, width 1s, height 1s, color 3s 1s;
-		transform: translate(-35%, 20%) rotate(5deg);
+		transform: translate(-32.5%, 20%) rotate(5deg);
 		z-index: 1;
 		width: 120%;
 		height: 120%;

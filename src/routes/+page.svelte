@@ -6,6 +6,7 @@
 	import Toast from '../lib/toast.svelte';
 	import Toaster from '../lib/toaster.svelte';
 	import type { ComponentProps } from 'svelte';
+	import Footer from '$lib/footer.svelte';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -103,6 +104,7 @@
 		{/if}
 	</div>
 	{/if}
+	<Footer/>
 </div>
 
 <style>

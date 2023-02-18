@@ -84,23 +84,23 @@ export class Strava {
 		// last entry is ok: boolean not activity
 		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
 		console.log('activities', activities);
-		const allEfforts: effortDetails[] = []
-		activities.forEach(async (activity) => {
+		const bestEfforts: effortDetails[] = []
+		for (const activity of activities) {
 			if (activity.device_watts) {
 				// or other handeler?
 				// "you need power to toast bread"
 				const watts = await this.getActivityWattsStreams(String(activity.id));
 				// console.log(activity.id, watts);
 				const bestRideEffort = findBestEffort(watts[0].data, powerMinimum, period);
-				allEfforts.push(
+				bestEfforts.push(
 					{
 						id: activity.id,
 						...bestRideEffort
 					}
 				)
 			}
-		}, [])
-		const bestEfforts: effortDetails[] = await Promise.all(allEfforts);
+		}
+		// const bestEfforts: effortDetails[] = await Promise.all(allEfforts);
 		console.log('best', bestEfforts);
 		if (bestEfforts.length == 0) {
 			return {

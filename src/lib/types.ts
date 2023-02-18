@@ -6,7 +6,7 @@ export interface effort {
 }
 
 export interface effortDetails extends effort {
-	id: number;
+	id: number | null;
 }
 
 export interface wattsStream {

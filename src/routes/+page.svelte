@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { binLength as BinLength } from '$lib/types';
+	import type { binLength as BinLength, effortDetails } from '$lib/types';
 	import { Strava, stravaOAuth } from './api';
 
 	import type { PageData } from './$types';
@@ -15,7 +15,7 @@
 
 	let api: Strava;
 
-	let energy = 0;
+	let effort: effortDetails = {power: 0, joules:0, timeS:0, id: null};
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
 	let devAllow = import.meta.env.PROD;
@@ -29,11 +29,11 @@
 	function runMain() {
 		status = 'loading';
 		api = new Strava(data.access_token, data.refresh_token);
-		api.getBestEffortlast30().then((value) => {
+		api.getBestEffortlast30().then((bestEffort) => {
 			// svelte force update on object
 			api = api;
-			console.log('Best Energy', value);
-			energy = value;
+			console.log('Best Energy', bestEffort);
+			effort = bestEffort;
 			setTimeout(() => {
 				status = 'finished';
 				setTimeout(() => {
@@ -68,8 +68,12 @@
 		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
 		<div class="break-words max-w-screen w-screen">Api: {JSON.stringify(api, null)}</div>
 		<div class="break-words max-w-screen w-screen">Status: {status}</div>
-		<div class="break-words max-w-screen w-screen">Energy: <input type="number" bind:value={energy} /></div>
-		<div class="break-words max-w-screen w-screen">run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} /></div>
+		<div class="break-words max-w-screen w-screen">
+			Energy: <input type="number" bind:value={effort} />
+		</div>
+		<div class="break-words max-w-screen w-screen">
+			run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} />
+		</div>
 		<div class="break-words max-w-screen w-screen">
 			<button on:click={() => (status = 'waiting')}>waiting</button>
 			<button on:click={() => (status = 'loading')}>loading</button>
@@ -82,23 +86,23 @@
 {/if}
 
 <div class="grid place-items-center h-screen">
-	<Toaster {status}><Toast value={energy} {bins} /></Toaster>
+	<Toaster {status}><Toast {effort} {bins} /></Toaster>
 	{#if !data.status}
-	<div class="animate-bounce mx-auto mt-52">
-		<img
-			class="cursor-pointer"
-			style="width: 60rem;"
-			src="images/btn_strava_connectwith_orange.svg"
-			on:click={stravaOAuth}
-			on:keypress={(key) => {
-				stravaOAuth();
-			}}
-			alt={'Connect With Strava'}
-		/>
-		{#if data.message}
-			<div class="text-center">{data.message}</div>
-		{/if}
-	</div>
+		<div class="animate-bounce mx-auto mt-52">
+			<img
+				class="cursor-pointer"
+				style="width: 60rem;"
+				src="images/btn_strava_connectwith_orange.svg"
+				on:click={stravaOAuth}
+				on:keypress={(key) => {
+					stravaOAuth();
+				}}
+				alt={'Connect With Strava'}
+			/>
+			{#if data.message}
+				<div class="text-center">{data.message}</div>
+			{/if}
+		</div>
 	{/if}
 	<Footer />
 </div>

@@ -6,4 +6,4 @@
   - link to activity
 - Add a share option
   - How to do? want a preview link with details - ssr? 
-- Check that the joules is calculated correctly
+- Check that the joules is calculated correctly [x]

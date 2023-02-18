@@ -78,6 +78,7 @@
 	{#if effort.id != null}
 	<div style="font-size: 20px; top: 100%;" class="absolute text-center w-full">
 		{effort.power.toFixed(0)}W for {secondsToMMSS(effort.timeS)}
+		<a href={`www.strava.com/activities/${effort.id}`}>View this activity on strava</a>
 	</div>
 	{/if}
 </div>

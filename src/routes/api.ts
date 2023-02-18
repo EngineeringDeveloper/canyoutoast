@@ -237,7 +237,7 @@ function max(array: number[]) {
 }
 
 function idxMax(array: number[]) {
-	return array.reduce((prev, current, currentIndex) => {
-		return prev > current ? prev : currentIndex;
+	return array.reduce((prev, current, currentIndex, array) => {
+		return current > array[prev] ? currentIndex : prev;
 	}, 0);
 }

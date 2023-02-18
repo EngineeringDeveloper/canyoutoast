@@ -64,13 +64,13 @@
 </script>
 
 {#if import.meta.env.DEV}
-	<div class="absolute grid grid-flow-row top-0 left-0 mx-5 my-5 px-5 max-w-screen break-words">
+	<div class="absolute grid grid-flow-row top-0 left-0 max-w-screen break-words">
 		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
-		<div>Api: {JSON.stringify(api, null)}</div>
-		<div>Status: {status}</div>
-		<div>Energy: <input type="number" bind:value={energy} /></div>
-		<div>run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} /></div>
-		<div>
+		<div class="break-words max-w-screen w-screen">Api: {JSON.stringify(api, null)}</div>
+		<div class="break-words max-w-screen w-screen">Status: {status}</div>
+		<div class="break-words max-w-screen w-screen">Energy: <input type="number" bind:value={energy} /></div>
+		<div class="break-words max-w-screen w-screen">run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} /></div>
+		<div class="break-words max-w-screen w-screen">
 			<button on:click={() => (status = 'waiting')}>waiting</button>
 			<button on:click={() => (status = 'loading')}>loading</button>
 			<button on:click={() => (status = 'finished')}>finished</button>

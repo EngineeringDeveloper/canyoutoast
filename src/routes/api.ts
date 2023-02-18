@@ -1,4 +1,4 @@
-import type { Activity, Athlete, fullAthlete, wattsStream } from '$lib/types';
+import type { Activity, Athlete, fullAthlete, wattsStream, effort, effortDetails } from '$lib/types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -84,25 +84,35 @@ export class Strava {
 		// last entry is ok: boolean not activity
 		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
 		console.log('activities', activities);
-		const bestEfforts = await Promise.all(
-			activities.map(async (activity) => {
-				if (!activity.device_watts) {
-					// or other handeler?
-					// "you need power to toast bread"
-					return 0;
-				}
-
+		const allEfforts: effortDetails[] = []
+		activities.forEach(async (activity) => {
+			if (activity.device_watts) {
+				// or other handeler?
+				// "you need power to toast bread"
 				const watts = await this.getActivityWattsStreams(String(activity.id));
 				// console.log(activity.id, watts);
-				return findBestEffort(watts[0].data, powerMinimum, period);
-			})
-		);
+				const bestRideEffort = findBestEffort(watts[0].data, powerMinimum, period);
+				allEfforts.push(
+					{
+						id: activity.id,
+						...bestRideEffort
+					}
+				)
+			}
+		}, [])
+		const bestEfforts: effortDetails[] = await Promise.all(allEfforts);
 		console.log('best', bestEfforts);
 		if (bestEfforts.length == 0) {
-			return 0;
+			return {
+				power: 0,
+				timeS: 0,
+				joules: 0,
+				id: null,
+			};
 		}
 
-		return max(bestEfforts);
+		const idxBest = idxMax(bestEfforts.map((x) => x.joules));
+		return bestEfforts[idxBest]
 	}
 
 	async getActivityWattsStreams(activityID: string): Promise<wattsStream> {
@@ -169,10 +179,10 @@ export class Strava {
 	}
 }
 
-function findBestEffort(watts: number[], powerMinimum: number, period: number): number {
+function findBestEffort(watts: number[], powerMinimum: number, period: number): effort {
 	// create the moving average Power
 	// padding the extents with 0's
-	const movingAverage = watts.map((_, index, array) => {
+	const movingAverage = watts.map((value, index, array) => {
 		// ends cut to 0
 		if (index < period - 1) {
 			return 0;
@@ -185,7 +195,8 @@ function findBestEffort(watts: number[], powerMinimum: number, period: number): 
 		return total / period;
 	});
 
-	const efforts: number[] = [];
+	const effortValue: number[] = [];
+	const efforts: effort[] = []
 	let thisEffort: number[] = [];
 	// Split the movingAverage into efforts > powerMinimum
 	movingAverage.forEach((value) => {
@@ -198,19 +209,35 @@ function findBestEffort(watts: number[], powerMinimum: number, period: number): 
 		let effortJoules = 0;
 		// because Watts * seconds = Joules and sampling is 1hz
 		thisEffort.forEach((value) => (effortJoules += value));
-		efforts.push(effortJoules);
+		effortValue.push(effortJoules);
+		efforts.push({
+			power: effortJoules / thisEffort.length,
+			timeS: thisEffort.length,
+			joules: effortJoules,
+		})
 		thisEffort = [];
 	});
 
-	if (efforts.length == 0) {
-		return 0;
+	if (effortValue.length == 0) {
+		return {
+			power: 0,
+			timeS: 0,
+			joules:0,
+		};
 	}
 	// return the best effort
-	return max(efforts);
+	const bestEffort = idxMax(effortValue);
+	return efforts[bestEffort]
 }
 
 function max(array: number[]) {
 	return array.reduce((prev, current) => {
 		return prev > current ? prev : current;
 	});
+}
+
+function idxMax(array: number[]) {
+	return array.reduce((prev, current, currentIndex) => {
+		return prev > current ? prev : currentIndex;
+	}, 0);
 }

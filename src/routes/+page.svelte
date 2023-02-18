@@ -17,8 +17,8 @@
 
 	let energy = 0;
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
-	
-	let devAllow = import.meta.env.PROD
+
+	let devAllow = import.meta.env.PROD;
 
 	if (data.status) {
 		if (devAllow) {
@@ -27,56 +27,54 @@
 	}
 
 	function runMain() {
-		setTimeout(() => {
-			status = 'loading';
-			api = new Strava(data.access_token, data.refresh_token);
-			api.getBestEffortlast30().then((value) => {
-				// svelte force update on object
-				api = api;
-				console.log('Best Energy', value);
-				energy = value;
+		status = 'loading';
+		api = new Strava(data.access_token, data.refresh_token);
+		api.getBestEffortlast30().then((value) => {
+			// svelte force update on object
+			api = api;
+			console.log('Best Energy', value);
+			energy = value;
+			setTimeout(() => {
+				status = 'finished';
 				setTimeout(() => {
-					status = 'finished';
-					setTimeout(() => {
-						status = 'display';
-					}, 1000);
-				}, 1000);
-			});
-		}, 1000);
+					status = 'display';
+				}, 2000);
+			}, 1000);
+		});
 	}
 	function demo() {
-        status = "waiting"
-        setTimeout(() => {
-            status = "loading"
-            setTimeout(() => {
-                status = "finished"
-                setTimeout(() => {  
-                    status = "display"
-                }, 1000)
-            }, 3000)
-        }, 1000)
-    }
+		status = 'waiting';
+		setTimeout(() => {
+			status = 'loading';
+			setTimeout(() => {
+				status = 'finished';
+				setTimeout(() => {
+					status = 'display';
+				}, 1000);
+			}, 3000);
+		}, 1000);
+	}
 
-    function finish_and_show() {
-        status = "finished"
-        setTimeout(() => {  
-            status = "display"
-        }, 1000)
-    }
+	function finish_and_show() {
+		status = 'finished';
+		setTimeout(() => {
+			status = 'display';
+		}, 1000);
+	}
 </script>
 
 {#if import.meta.env.DEV}
-	<div class="absolute top-0 left-0 mx-5 my-5 px-5 w-96">
-		<div>Page Data: {JSON.stringify(data)}</div>
-		<div>Api: {JSON.stringify(api, null, '\t')}</div>
+	<div class="absolute grid grid-flow-row top-0 left-0 mx-5 my-5 px-5 max-w-screen break-words">
+		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
+		<div>Api: {JSON.stringify(api, null)}</div>
 		<div>Status: {status}</div>
 		<div>Energy: <input type="number" bind:value={energy} /></div>
 		<div>run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} /></div>
-		<div >
-			<button on:click={ ()=> status = "waiting"}>waiting</button>
-			<button on:click={ ()=> status = "loading"}>loading</button>
-			<button on:click={ ()=> status = "finished"}>finished</button>
-			<button on:click={ ()=> status = "display"}>display</button>
+		<div>
+			<button on:click={() => (status = 'waiting')}>waiting</button>
+			<button on:click={() => (status = 'loading')}>loading</button>
+			<button on:click={() => (status = 'finished')}>finished</button>
+			<button on:click={() => (status = 'display')}>display</button>
 			<button on:click={finish_and_show}>Pop</button>
 			<button on:click={demo}>All</button>
 		</div>
@@ -86,9 +84,7 @@
 <div class="grid place-items-center h-screen">
 	<Toaster {status}><Toast value={energy} {bins} /></Toaster>
 	{#if !data.status}
-	<div
-	class="animate-bounce mx-auto mt-52"
-	>
+	<div class="animate-bounce mx-auto mt-52">
 		<img
 			class="cursor-pointer"
 			style="width: 60rem;"
@@ -100,11 +96,11 @@
 			alt={'Connect With Strava'}
 		/>
 		{#if data.message}
-		<div class="text-center">{data.message}</div>
+			<div class="text-center">{data.message}</div>
 		{/if}
 	</div>
 	{/if}
-	<Footer/>
+	<Footer />
 </div>
 
 <style>

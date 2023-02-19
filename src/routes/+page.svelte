@@ -16,6 +16,8 @@
 	let api: Strava;
 
 	let effort: effortDetails = {power: 0, joules:0, timeS:0, id: null};
+	// effort = { power : 500, joules :60000, timeS:120, id: 8581239719}
+
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
 	let devAllow = import.meta.env.PROD;
@@ -64,7 +66,7 @@
 </script>
 
 {#if import.meta.env.DEV}
-	<div class="absolute grid grid-flow-row top-0 left-0 max-w-screen break-words">
+	<div class="absolute grid grid-flow-row top-0 left-0 max-w-screen break-words z-10">
 		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
 		<div class="break-words max-w-screen w-screen">Api: {JSON.stringify(api, null)}</div>
 		<div class="break-words max-w-screen w-screen">Status: {status}</div>
@@ -85,7 +87,7 @@
 	</div>
 {/if}
 
-<div class="grid place-items-center h-screen">
+<div class="grid place-items-center h-screen relative z-0">
 	<Toaster {status}><Toast {effort} {bins} /></Toaster>
 	{#if !data.status}
 		<div class="animate-bounce mx-auto mt-52">

@@ -74,17 +74,20 @@
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}
 	</div>
-	<img class="apsolute top-0" src={toast.src} alt={toast.altText} />
+	<img src={toast.src} alt={toast.altText} />
 	{#if effort.id != null}
 		<div style="font-size: 20px; bottom: 97%;" class="absolute w-full text-center">
 			{effort.power.toFixed(0)}W for {secondsToMMSS(effort.timeS)}
 		</div>
 		<a
-			style="color: #FC4C02;font-size: 20px; transform-origin: bottom left;"
+			style="font-size: 20px; transform-origin: bottom left;"
 			class="absolute w-fit cursor-pointer left-0 top-full"
-			target="_blank" rel="noreferrer"
-			href={`http://www.strava.com/activities/${effort.id}`}>View on strava</a
+			target="_blank"
+			rel="noreferrer"
+			href={`http://www.strava.com/activities/${effort.id}`}
 		>
+			<div>View on strava</div>
+		</a>
 	{/if}
 </div>
 

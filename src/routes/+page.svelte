@@ -90,7 +90,7 @@
 <div class="grid place-items-center h-screen relative z-0">
 	<Toaster {status}><Toast {effort} {bins} /></Toaster>
 	{#if !data.status}
-		<div class="animate-bounce mx-auto mt-52">
+		<div class="animate-bounce mx-auto mt-52 z-20">
 			<img
 				class="cursor-pointer"
 				style="width: 60rem;"

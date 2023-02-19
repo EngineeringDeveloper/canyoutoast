@@ -9,7 +9,7 @@
 	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 2xl:w-142 -z-10 ${status}-shake z-10`}
 >
 <!--  -->
-	<div class={`absolute toast toast-${status} moving text-transparent`}>
+	<div class={`absolute toast toast-${status} moving`}>
 		<slot />
 	</div>
 	<div class="absolute w-full h-full z-10">
@@ -96,12 +96,14 @@
 	.toast-waiting {
 		width: 45%;
 		height: 45%;
+		color: transparent;
 	}
 
 	.toast-loading {
 		transform: translate(0, 50%);
 		width: 45%;
 		height: 45%;
+		color: transparent;
 	}
 
 	.toast-finished {
@@ -109,6 +111,7 @@
 		transition: all 0.5s;
 		width: 45%;
 		height: 45%;
+		color: transparent;
 	}
 
 	.toast-display {
@@ -118,6 +121,11 @@
 		width: 90vw;
 		height: 90vw;
 		color: black;
+	}
+
+	:global(.toast-display > div > a) {
+        transition: color 3s 1s;
+		color: #FC4C02;
 	}
 
 	@media(min-width: 1024px) {

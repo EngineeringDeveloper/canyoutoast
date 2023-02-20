@@ -73,11 +73,16 @@
 	let sharePosX = 0
 	let sharePosY = 0
 
-	function showShareButtons(e: PointerEvent) {
+	function showShareButtons(e: PointerEvent | KeyboardEvent) {
 		console.log(e)
 		// Set the position of the share buttons to be centered around the click
-		sharePosX = e.offsetX
-		sharePosY = e.offsetY
+		if (e.offsetX != undefined) {
+			sharePosX = e.offsetX
+			sharePosY = e.offsetY
+		} else {
+			sharePosX = 0
+			sharePosY = 0
+		}
 		showShare = true
 	}
 

@@ -48,25 +48,6 @@
 			}, 1000);
 		});
 	}
-	function demo() {
-		status = 'waiting';
-		setTimeout(() => {
-			status = 'loading';
-			setTimeout(() => {
-				status = 'finished';
-				setTimeout(() => {
-					status = 'display';
-				}, 1000);
-			}, 3000);
-		}, 1000);
-	}
-
-	function finish_and_show() {
-		status = 'finished';
-		setTimeout(() => {
-			status = 'display';
-		}, 1000);
-	}
 
 	const metaData: ComponentProps<Meta> = {
 		title: 'Can you Toast?',

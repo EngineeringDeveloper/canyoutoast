@@ -5,6 +5,7 @@
 	export let image = '/images/toast/0.png';
 	export let path = $page.url.pathname;
 	export let domain = 'https://www.canyoutoast.com';
+    export let fbAppID = "1629643650789430"
 	export let titleSuffix = '... thats it';
 	const titleWithSuffix = (titleSuffix === title) ? title : `${title} | ${titleSuffix}`;
 	const fullURI = `${domain}${path}`;
@@ -22,6 +23,7 @@
 	<meta property="og:title" content={titleWithSuffix} />
 	<meta property="og:description" content={description} />
 	<meta property="og:image" content={image} />
+	<meta property="fb:app_id" content={fbAppID} />
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image" />
@@ -29,4 +31,5 @@
 	<meta property="twitter:title" content={titleWithSuffix} />
 	<meta property="twitter:description" content={description} />
 	<meta property="twitter:image" content={image} />
+	<meta property="twitter:creator" content="@canyoutoast" />
 </svelte:head>

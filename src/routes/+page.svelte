@@ -1,12 +1,16 @@
 <script lang="ts">
-	import type { binLength as BinLength, effortDetails } from '$lib/types';
-	import { Strava, stravaOAuth } from './api';
 
+	import type { binLength as BinLength, effortDetails } from '$lib/types';
 	import type { PageData } from './$types';
-	import Toast from '../lib/toast.svelte';
-	import Toaster from '../lib/toaster.svelte';
 	import type { ComponentProps } from 'svelte';
+	
+	import { Strava, stravaOAuth } from './api';
+	
+	import Toast from '$lib/toast.svelte';
+	import Toaster from '../lib/toaster.svelte';
 	import Footer from '$lib/footer.svelte';
+	import Meta from '$lib/meta.svelte';
+	import Dev from '$lib/dev.svelte';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -63,29 +67,16 @@
 			status = 'display';
 		}, 1000);
 	}
+
+	const metaData: ComponentProps<Meta> = {
+		title: 'Can you Toast?',
+		description: 'How well can you heat your Toast on a bike?'
+	}
 </script>
 
-{#if import.meta.env.DEV}
-	<div class="absolute grid grid-flow-row top-0 left-0 max-w-screen break-words z-10">
-		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
-		<div class="break-words max-w-screen w-screen">Api: {JSON.stringify(api, null)}</div>
-		<div class="break-words max-w-screen w-screen">Status: {status}</div>
-		<div class="break-words max-w-screen w-screen">
-			Energy: <input type="number" bind:value={effort} />
-		</div>
-		<div class="break-words max-w-screen w-screen">
-			run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} />
-		</div>
-		<div class="break-words max-w-screen w-screen">
-			<button on:click={() => (status = 'waiting')}>waiting</button>
-			<button on:click={() => (status = 'loading')}>loading</button>
-			<button on:click={() => (status = 'finished')}>finished</button>
-			<button on:click={() => (status = 'display')}>display</button>
-			<button on:click={finish_and_show}>Pop</button>
-			<button on:click={demo}>All</button>
-		</div>
-	</div>
-{/if}
+<Meta {...metaData}/>
+
+<Dev bind:status bind:effort bind:api bind:data bind:devAllow runMain={runMain} />
 
 <div class="grid place-items-center h-screen relative z-0">
 	<Toaster {status}><Toast {effort} {bins} /></Toaster>

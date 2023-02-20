@@ -68,13 +68,30 @@
 	}
 
 	$: toast = toastSrc[binValue(effort.joules, bins)];
+
+	let showShare = false
+	let sharePosX = 0
+	let sharePosY = 0
+
+	function showShareButtons(e: PointerEvent) {
+		console.log(e)
+		// Set the position of the share buttons to be centered around the click
+		sharePosX = e.offsetX
+		sharePosY = e.offsetY
+		showShare = true
+	}
+
 </script>
 
 <div class="absolute">
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}
 	</div>
-	<img src={toast.src} alt={toast.altText} />
+	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
+	{#if showShare}
+		<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2">Clicked here</div>
+	{/if}
+	
 	{#if effort.id != null}
 		<div style="font-size: 20px; bottom: 97%;" class="absolute w-full text-center">
 			{effort.power.toFixed(0)}W for {secondsToMMSS(effort.timeS)}

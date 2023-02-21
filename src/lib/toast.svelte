@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { binLength, effortDetails } from '$lib/types';
+	import Share from './share.svelte';
 
 	export let effort: effortDetails;
 	export let bins: binLength;
@@ -94,7 +95,7 @@
 	</div>
 	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
 	{#if showShare}
-		<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2">Clicked here</div>
+		<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share/></div>
 	{/if}
 	
 	{#if effort.id != null}

@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { Email, Reddit, WhatsApp, Facebook, Twitter } from 'svelte-share-buttons-component';
+
+	export let url: string;
+	export let title: string = "Check out my toast on";
 	export let showShare = false
+	export let desc: string = "I Just cooked this Toast on";
+
+	console.log(url)
 
 	$: position = showShare ? "circle" : "middle"
-	const url = 'google.com';
-	const title = 'Svelte Share Buttons Component';
-	const desc = 'Svelte based social media share buttons component with no tracking.';
 </script>
 
 

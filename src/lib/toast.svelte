@@ -75,7 +75,6 @@
 	let sharePosY = 0
 
 	function showShareButtons(e: PointerEvent | KeyboardEvent) {
-		console.log(e)
 		// Set the position of the share buttons to be centered around the click
 		if (e.offsetX != undefined) {
 			sharePosX = e.offsetX
@@ -90,6 +89,20 @@
 		}, 5000)
 	}
 
+	let url = new URL ("http://www.canyoutoast.com").toString()
+
+	$: {
+		const newUrl = new URL ("http://www.canyoutoast.com")
+		for (const [key, value] of Object.entries(effort)) {
+			if (key == "joules") {
+				newUrl.searchParams.append("bin", binValue(value, bins).toFixed(0))
+			} else {
+				newUrl.searchParams.append(key, value)
+			}
+		}
+		url = newUrl.toString()
+	}
+
 </script>
 
 <div class="absolute">
@@ -97,7 +110,7 @@
 		{toast.text}
 	</div>
 	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
-	<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share {showShare}/></div>
+	<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share {showShare} {url}/></div>
 	
 	{#if effort.id != null}
 		<div style="font-size: 20px; bottom: 97%;" class="absolute w-full text-center">

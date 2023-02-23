@@ -85,6 +85,9 @@
 			sharePosY = 0
 		}
 		showShare = true
+		setTimeout(() => {
+			showShare = false
+		}, 5000)
 	}
 
 </script>
@@ -94,9 +97,7 @@
 		{toast.text}
 	</div>
 	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
-	{#if showShare}
-		<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share/></div>
-	{/if}
+	<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share {showShare}/></div>
 	
 	{#if effort.id != null}
 		<div style="font-size: 20px; bottom: 97%;" class="absolute w-full text-center">

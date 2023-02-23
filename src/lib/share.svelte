@@ -1,25 +1,28 @@
 <script lang="ts">
 	import { Email, Reddit, WhatsApp, Facebook, Twitter } from 'svelte-share-buttons-component';
+	export let showShare = false
 
+	$: position = showShare ? "circle" : "middle"
 	const url = 'google.com';
 	const title = 'Svelte Share Buttons Component';
 	const desc = 'Svelte based social media share buttons component with no tracking.';
 </script>
 
+
 <div style="width: 100px; height: 100px;">
-	<div class="circle">
+	<div class={`${position}`}>
 		<Email subject={title} body="{desc} {url}" />
 	</div>
-	<div class="circle">
+	<div class={`${position}`}>
 		<Reddit class="share-button" {title} {url} />
 	</div>
-	<div class="circle">
+	<div class={`${position}`}>
 		<WhatsApp class="share-button" text="{title} {url}" />
 	</div>
-	<div class="circle">
+	<div class={`${position}`}>
 		<Facebook class="share-button" quote={title} {url} />
 	</div>
-	<div class="circle">
+	<div class={`${position}`}>
 		<Twitter
 			class="share-button"
 			text={title}
@@ -32,11 +35,19 @@
 </div>
 
 <style>
+	.middle {
+		position: absolute;
+		left: calc(50% - 25px);
+		top: calc(50% - 25px);
+		transition: all 1s;
+		transform: translate(0, 0);
+		visibility: hidden;
+	}
 	.circle {
 		position: absolute;
 		left: calc(50% - 25px);
 		top: calc(50% - 25px);
-		transition: translate 1s;
+		transition: all 2s;
 	}
 
 	.circle:nth-child(1) {

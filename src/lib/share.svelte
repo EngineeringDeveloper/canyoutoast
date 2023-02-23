@@ -11,7 +11,7 @@
 
 <div style="width: 100px; height: 100px;">
 	<div class={`${position}`}>
-		<Email subject={title} body="{desc} {url}" />
+		<Email class="share-button" subject={title} body="{desc} {url}" />
 	</div>
 	<div class={`${position}`}>
 		<Reddit class="share-button" {title} {url} />
@@ -35,19 +35,26 @@
 </div>
 
 <style>
+	:global(.share-button) {
+		height: 40px;
+		width: 40px;
+		border-radius: 20%;
+		display: inline-block;
+	}
 	.middle {
 		position: absolute;
-		left: calc(50% - 25px);
-		top: calc(50% - 25px);
+		left: calc(50% - 20px);
+		top: calc(50% - 20px);
 		transition: all 1s;
 		transform: translate(0, 0);
 		visibility: hidden;
+		opacity: 0;
 	}
 	.circle {
 		position: absolute;
-		left: calc(50% - 25px);
-		top: calc(50% - 25px);
-		transition: all 2s;
+		left: calc(50% - 20px);
+		top: calc(50% - 20px);
+		transition: all 0.5s;
 	}
 
 	.circle:nth-child(1) {

@@ -84,7 +84,7 @@ export class Strava {
 		// last entry is ok: boolean not activity
 		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
 		// console.log('activities', activities);
-		const name = activities[0].athlete.firstname
+		const name = (await this.getAthlete()).firstname
 		const bestEfforts: effortDetails[] = []
 		for (const activity of activities) {
 			if (activity.device_watts) {
@@ -96,7 +96,7 @@ export class Strava {
 				bestEfforts.push(
 					{
 						id: activity.id,
-						name: activity.athlete.firstname,
+						name,
 						...bestRideEffort
 					}
 				)

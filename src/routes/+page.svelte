@@ -16,17 +16,18 @@
 	const bins: BinLength = [
 		30000, 43200, 64800, 86400, 97200, 108000, 129600, 151200, 162000, 172800, 194400
 	];
-	data.status = true
-
+	
 	let api: Strava;
-
+	
 	let effort: effortDetails = {power: 0, joules:0, timeS:0, id: null, name: null};
+	// dev settings
+	// data.status = true
 	// effort = { power : 500, joules :60000, timeS:120, id: 8581239719, name: "Ryan"}
 
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
 	let devAllow = import.meta.env.PROD;
-
+	// let devAllow = true;
 	if (data.status) {
 		if (devAllow) {
 			runMain();

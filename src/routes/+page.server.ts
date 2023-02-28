@@ -8,6 +8,7 @@ import type { effortURLParams } from '$lib/types';
 export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) => {
 	let data = {};
 	if (url.searchParams.has('obj')) {
+		console.log("Found effort Object")
 		const effortObjectData: effortURLParams = JSON.parse(url.searchParams.get('obj')!);
 		const metaData = {
 			title: `${effortObjectData.name} just toasted with ${effortObjectData.power}`,

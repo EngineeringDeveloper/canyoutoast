@@ -34,16 +34,6 @@
 			runMain();
 		}
 	}
-	loaded.subscribe((toastLoaded) => {
-		if (toastLoaded && status == "loading") {
-			status = "finished"
-			setTimeout(() => {
-						setTimeout(() => {
-							status = 'display';
-						}, 2000);
-					}, 1000);
-		}
-	})
 
 	function runMain() {
 		status = 'loading';
@@ -53,15 +43,23 @@
 			api = api;
 			// console.log('Best Energy', bestEffort);
 			effort = bestEffort;
-			if ($loaded) {
-				status = 'finished';
-				setTimeout(() => {
-					setTimeout(() => {
-						status = 'display';
-					}, 2000);
-				}, 1000);
-			}
+			waitLoop()
 		});
+	}
+
+	function waitLoop() {
+		if ($loaded) {
+			status = 'finished';
+			setTimeout(() => {
+				setTimeout(() => {
+					status = 'display';
+				}, 2000);
+			}, 1000);
+		return
+		}
+		setTimeout(() => {
+			waitLoop()
+		}, 1000)
 	}
 
 	const metaData: ComponentProps<Meta> = {

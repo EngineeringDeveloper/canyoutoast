@@ -115,9 +115,9 @@
 		const newUrl = new URL ("https://www.canyoutoast.com")
 		const newEffort: effortURLParams = {
 			name: effort.name!,
-			id: effort.id!,
-			power: effort.power,
-			timeS: effort.timeS,
+			// id: effort.id!,
+			power: effort.power.toFixed(0),
+			timeS: effort.timeS.toFixed(0),
 			bin: binValue(effort.joules, bins).toFixed(0),
 		}
 		newUrl.searchParams.append("obj", JSON.stringify(newEffort))

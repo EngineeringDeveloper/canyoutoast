@@ -32,7 +32,7 @@ export async function stravaAuthenticate(
 	// Todo Resolve Authentication errors?
 
 	const responseData: AuthenticatedResponse = await response.json();
-	console.log(responseData);
+	// console.log(responseData);
 	return {
 		access_token: responseData.access_token,
 		refresh_token: responseData.refresh_token,
@@ -83,7 +83,8 @@ export class Strava {
 
 		// last entry is ok: boolean not activity
 		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
-		console.log('activities', activities);
+		// console.log('activities', activities);
+		const name = activities[0].athlete.firstname
 		const bestEfforts: effortDetails[] = []
 		for (const activity of activities) {
 			if (activity.device_watts) {
@@ -95,19 +96,20 @@ export class Strava {
 				bestEfforts.push(
 					{
 						id: activity.id,
+						name: activity.athlete.firstname,
 						...bestRideEffort
 					}
 				)
 			}
 		}
-		// const bestEfforts: effortDetails[] = await Promise.all(allEfforts);
-		console.log('best', bestEfforts);
+		// console.log('best', bestEfforts);
 		if (bestEfforts.length == 0) {
 			return {
 				power: 0,
 				timeS: 0,
 				joules: 0,
 				id: null,
+				name,
 			};
 		}
 
@@ -149,7 +151,7 @@ export class Strava {
 	}
 
 	async authGET(url: URL) {
-		console.log(url);
+		// console.log(url);
 		const response = await fetch(url, {
 			method: 'get',
 			headers: {
@@ -157,7 +159,7 @@ export class Strava {
 			}
 		});
 		this.requestCount += 1;
-		console.log('Request Count', this.requestCount);
+		// console.log('Request Count', this.requestCount);
 
 		// this functiom will handle response types
 		if (response.ok) {
@@ -167,7 +169,7 @@ export class Strava {
 			};
 		}
 
-		console.log(response.status, response.statusText);
+		// console.log(response.status, response.statusText);
 		switch (response.status) {
 			case 429:
 				// too many requests

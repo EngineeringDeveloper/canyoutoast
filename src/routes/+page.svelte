@@ -11,6 +11,7 @@
 	import Footer from '$lib/footer.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Dev from '$lib/dev.svelte';
+	import { loaded } from '$lib/toastStore';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -33,6 +34,16 @@
 			runMain();
 		}
 	}
+	loaded.subscribe((toastLoaded) => {
+		if (toastLoaded && status == "loading") {
+			status = "finished"
+			setTimeout(() => {
+						setTimeout(() => {
+							status = 'display';
+						}, 2000);
+					}, 1000);
+		}
+	})
 
 	function runMain() {
 		status = 'loading';
@@ -42,12 +53,14 @@
 			api = api;
 			// console.log('Best Energy', bestEffort);
 			effort = bestEffort;
-			setTimeout(() => {
+			if ($loaded) {
 				status = 'finished';
 				setTimeout(() => {
-					status = 'display';
-				}, 2000);
-			}, 1000);
+					setTimeout(() => {
+						status = 'display';
+					}, 2000);
+				}, 1000);
+			}
 		});
 	}
 

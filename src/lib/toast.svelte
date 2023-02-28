@@ -1,10 +1,17 @@
 <script lang="ts">
 	import type { binLength, effortDetails, effortURLParams } from '$lib/types';
-	import { lazyLoad } from "$lib/lazyload"
 	import Share from './share.svelte';
+	import {loaded} from "$lib/toastStore"
 
 	export let effort: effortDetails;
 	export let bins: binLength;
+	let img: HTMLImageElement;
+
+	$: {
+		if (img) {
+			loaded.set(img.complete)
+		}
+	}
 
 	interface toast {
 		src: string;
@@ -72,7 +79,7 @@
 	}
 
 	$: toast = toastSrc[binValue(effort.joules, bins)];
-	$: ToastIdx = binValue(effort.joules, bins);
+	// $: ToastIdx = binValue(effort.joules, bins);
 	$: {
 		toast
 		if (effort.id) {
@@ -135,14 +142,7 @@
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}
 	</div>
-	{#if ToastIdx == 0}
-		<img src={toastSrc[0].src} alt={toastSrc[0].altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
-	{/if}
-	{#each toastSrc.slice(1, -1) as toastOpt}
-		{#if ToastIdx == toastOpt.idx}
-			<img use:lazyLoad ={toastOpt.src} alt={toastOpt.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
-		{/if}
-	{/each}
+	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons} bind:this={img}/>
 	<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share {showShare} {url}/></div>
 	
 	{#if effort.id != null}

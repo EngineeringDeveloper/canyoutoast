@@ -7,6 +7,16 @@ export interface effort {
 
 export interface effortDetails extends effort {
 	id: number | null;
+	name: string | null;
+}
+
+export interface effortURLParams{
+	name: string;
+	id: number;
+	power: number;
+	timeS: number;
+	bin: string;
+
 }
 
 export interface wattsStream {

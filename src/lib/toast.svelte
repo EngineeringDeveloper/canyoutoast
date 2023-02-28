@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { binLength, effortDetails } from '$lib/types';
+	import type { binLength, effortDetails, effortURLParams } from '$lib/types';
 	import Share from './share.svelte';
 
 	export let effort: effortDetails;
@@ -107,17 +107,19 @@
 		}, 5000)
 	}
 
-	let url = new URL ("http://www.canyoutoast.com").toString()
+	let url = new URL ("https://www.canyoutoast.com").toString()
 
 	$: {
-		const newUrl = new URL ("http://www.canyoutoast.com")
-		for (const [key, value] of Object.entries(effort)) {
-			if (key == "joules") {
-				newUrl.searchParams.append("bin", binValue(value, bins).toFixed(0))
-			} else {
-				newUrl.searchParams.append(key, value)
-			}
+		const newUrl = new URL ("https://www.canyoutoast.com")
+		const newEffort: effortURLParams = {
+			name: effort.name!,
+			id: effort.id!,
+			power: effort.power,
+			timeS: effort.timeS,
+			bin: binValue(effort.joules, bins).toFixed(0),
 		}
+		newUrl.searchParams.append("obj", JSON.stringify(newEffort))
+
 		url = newUrl.toString()
 	}
 

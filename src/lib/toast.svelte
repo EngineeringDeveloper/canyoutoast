@@ -69,10 +69,28 @@
 	}
 
 	$: toast = toastSrc[binValue(effort.joules, bins)];
+	$: {
+		toast
+		setTimeout(() => {
+			showShare = true
+			setTimeout(() => {
+			showShare = false
+		}, 10000)
+		}, 5000)
+	}
 
 	let showShare = false
+	let h: number;
+	let w: number;
 	let sharePosX = 0
 	let sharePosY = 0
+
+	$: {
+		if (h) {
+			sharePosX = w / 2
+			sharePosY = h / 2
+		}
+	}
 
 	function showShareButtons(e: PointerEvent | KeyboardEvent) {
 		// Set the position of the share buttons to be centered around the click
@@ -105,7 +123,7 @@
 
 </script>
 
-<div class="absolute">
+<div class="absolute" bind:clientWidth={w} bind:clientHeight={h} >
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}
 	</div>

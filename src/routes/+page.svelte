@@ -16,11 +16,12 @@
 	const bins: BinLength = [
 		30000, 43200, 64800, 86400, 97200, 108000, 129600, 151200, 162000, 172800, 194400
 	];
+	data.status = true
 
 	let api: Strava;
 
-	let effort: effortDetails = {power: 0, joules:0, timeS:0, id: null};
-	// effort = { power : 500, joules :60000, timeS:120, id: 8581239719}
+	let effort: effortDetails = {power: 0, joules:0, timeS:0, id: null, name: null};
+	// effort = { power : 500, joules :60000, timeS:120, id: 8581239719, name: "Ryan"}
 
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
@@ -38,7 +39,7 @@
 		api.getBestEffortlast30().then((bestEffort) => {
 			// svelte force update on object
 			api = api;
-			console.log('Best Energy', bestEffort);
+			// console.log('Best Energy', bestEffort);
 			effort = bestEffort;
 			setTimeout(() => {
 				status = 'finished';
@@ -53,6 +54,13 @@
 		title: 'Can you Toast?',
 		description: 'How well can you heat your Toast on a bike?'
 	}
+
+	if (data.metaData) {
+		metaData.title = data.metaData.title
+		metaData.description = data.metaData.description
+		metaData.image = `/images/toast/${data.metaData.image}.png`
+	}
+
 </script>
 
 <Meta {...metaData}/>

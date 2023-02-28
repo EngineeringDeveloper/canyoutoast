@@ -58,7 +58,7 @@
 	if (data.metaData) {
 		metaData.title = data.metaData.title
 		metaData.description = data.metaData.description
-		metaData.image = `/images/toast/${data.metaData.image}.png`
+		metaData.image = data.metaData.image
 	}
 
 </script>

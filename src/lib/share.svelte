@@ -30,9 +30,9 @@
 			class="share-button"
 			text={title}
 			{url}
-			hashtags="github,svelte"
-			via="username"
-			related="other,users"
+			hashtags="canyoutoast"
+			via="canyoutoast"
+			related=""
 		/>
 	</div>
 </div>

@@ -71,12 +71,14 @@
 	$: toast = toastSrc[binValue(effort.joules, bins)];
 	$: {
 		toast
-		setTimeout(() => {
-			showShare = true
+		if (effort.id) {
 			setTimeout(() => {
-			showShare = false
-		}, 10000)
-		}, 5000)
+				showShare = true
+				setTimeout(() => {
+				showShare = false
+			}, 10000)
+			}, 5000)
+		}
 	}
 
 	let showShare = false

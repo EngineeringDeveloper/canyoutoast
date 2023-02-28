@@ -36,9 +36,7 @@
 		<div class="break-words max-w-screen w-screen">Page Data: {JSON.stringify(data)}</div>
 		<div class="break-words max-w-screen w-screen">Api: {JSON.stringify(api, null)}</div>
 		<div class="break-words max-w-screen w-screen">Status: {status}</div>
-		<div class="break-words max-w-screen w-screen">
-			Energy: <input type="number" bind:value={effort} />
-		</div>
+		<div class="break-words max-w-screen w-screen">Effort: {JSON.stringify(effort)}</div>
 		<div class="break-words max-w-screen w-screen">
 			run API: <input type="checkbox" bind:value={devAllow} on:change={runMain} />
 		</div>

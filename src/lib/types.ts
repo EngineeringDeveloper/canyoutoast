@@ -12,9 +12,9 @@ export interface effortDetails extends effort {
 
 export interface effortURLParams{
 	name: string;
-	id: number;
-	power: number;
-	timeS: number;
+	// id: number;
+	power: string;
+	timeS: string;
 	bin: string;
 
 }

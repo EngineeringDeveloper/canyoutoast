@@ -1,9 +1,14 @@
 <script lang="ts">
 	// https://www.youtube.com/watch?v=G0HtHr46Awg&ab_channel=CodingArtist
+	import Smoke from "$lib/smoke.svelte"
 
 	export let status: 'waiting' | 'loading' | 'finished' | 'display' = 'waiting';
+
+	$: showSmoke = status == "loading"
+
 </script>
 
+<Smoke {showSmoke}/>
 <div
 	style="aspect-ratio: 1.41; margin-top: 20%"
 	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 2xl:w-142 -z-10 ${status}-shake z-10`}

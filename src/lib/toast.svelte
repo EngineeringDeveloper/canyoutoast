@@ -1,17 +1,9 @@
 <script lang="ts">
 	import type { binLength, effortDetails, effortURLParams } from '$lib/types';
 	import Share from './share.svelte';
-	import {loaded} from "$lib/toastStore"
 
 	export let effort: effortDetails;
 	export let bins: binLength;
-	let img: HTMLImageElement;
-
-	$: {
-		if (img) {
-			loaded.set(img.complete)
-		}
-	}
 
 	interface toast {
 		src: string;
@@ -148,7 +140,7 @@
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}
 	</div>
-	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons} bind:this={img}/>
+	<img src={toast.src} alt={toast.altText} on:click={showShareButtons} on:keydown={showShareButtons}/>
 	<div style = {`top: ${sharePosY}px; left: ${sharePosX}px`} class="fixed -translate-y-1/2 -translate-x-1/2"><Share {showShare} {url}/></div>
 	
 	{#if effort.id != null}

@@ -11,7 +11,6 @@
 	import Footer from '$lib/footer.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Dev from '$lib/dev.svelte';
-	import { loaded } from '$lib/toastStore';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -43,23 +42,13 @@
 			api = api;
 			// console.log('Best Energy', bestEffort);
 			effort = bestEffort;
-			waitLoop()
-		});
-	}
-
-	function waitLoop() {
-		if ($loaded) {
-			status = 'finished';
 			setTimeout(() => {
+				status = 'finished';
 				setTimeout(() => {
 					status = 'display';
 				}, 2000);
 			}, 1000);
-		return
-		}
-		setTimeout(() => {
-			waitLoop()
-		}, 1000)
+		});
 	}
 
 	const metaData: ComponentProps<Meta> = {

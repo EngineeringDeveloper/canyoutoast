@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type Toaster from '$lib/toaster.svelte';
 	import type { ComponentProps } from 'svelte';
-	import { loaded } from './toastStore';
 	import type { effortDetails } from './types';
 
 	export let status: ComponentProps<Toaster>['status'];
@@ -32,25 +31,12 @@
 				timeS: 140,
 				joules: 70000
 			}
-				waitLoop()
+				finish_and_show()
 			}, 5000);
 		}, 1000);
 	}
 
-	function waitLoop() {
-		if ($loaded) {
-			status = 'finished';
-			setTimeout(() => {
-				setTimeout(() => {
-					status = 'display';
-				}, 2000);
-			}, 1000);
-		return
-		}
-		setTimeout(() => {
-			waitLoop()
-		}, 1000)
-	}
+
 
 	function finish_and_show() {
 		status = 'finished';

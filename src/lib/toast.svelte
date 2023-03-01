@@ -32,7 +32,7 @@
 			idx: 2
 		},
 		{ text: 'Just about!', altText: 'Just about toast', src: '/images/toast/3.png', idx: 3 }, // 3
-		{ text: 'Keep Trying', altText: 'almost toast keep trying', src: '/images/toast/4png', idx: 4 },
+		{ text: 'Keep Trying', altText: 'almost toast keep trying', src: '/images/toast/4.png', idx: 4 },
 		{ text: 'Not quite there', altText: 'Almost Done Toast', src: '/images/toast/5.png', idx: 5 },
 		{ text: 'Now thats Toast', altText: 'Builders Brew Toast', src: '/images/toast/6.png', idx: 6 }, // 6
 		{ text: 'A little over done', altText: 'a litte overdone Toast', src: '/images/toast/7.png', idx: 7 },

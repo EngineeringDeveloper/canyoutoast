@@ -138,6 +138,12 @@
 
 </script>
 
+<svelte:head>
+    {#each toastSrc as toastPreload}
+      <link rel="preload" as="image" href={toastPreload.src} />
+    {/each}
+</svelte:head>
+
 <div class="absolute" bind:clientWidth={w} bind:clientHeight={h} >
 	<div style="font-size: 50px; bottom: 100%;" class="absolute text-center w-full">
 		{toast.text}

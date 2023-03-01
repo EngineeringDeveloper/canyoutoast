@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type Toaster from '$lib/toaster.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { loaded } from './toastStore';
+	import type { effortDetails } from './types';
 
 	export let status: ComponentProps<Toaster>['status'];
-	export let effort;
+	export let effort: effortDetails;
 	export let api;
 	export let data;
 	export let devAllow: boolean;
@@ -12,15 +14,42 @@
 
 	function demo() {
 		status = 'waiting';
+		effort = {
+				id:null,
+				name:null,
+				power: 0,
+				timeS: 0,
+				joules: 0
+			}
 		setTimeout(() => {
 			status = 'loading';
+			
 			setTimeout(() => {
-				status = 'finished';
+				effort = {
+				id : 0,
+				name : "test",
+				power: 500,
+				timeS: 140,
+				joules: 70000
+			}
+				waitLoop()
+			}, 5000);
+		}, 1000);
+	}
+
+	function waitLoop() {
+		if ($loaded) {
+			status = 'finished';
+			setTimeout(() => {
 				setTimeout(() => {
 					status = 'display';
-				}, 1000);
-			}, 3000);
-		}, 1000);
+				}, 2000);
+			}, 1000);
+		return
+		}
+		setTimeout(() => {
+			waitLoop()
+		}, 1000)
 	}
 
 	function finish_and_show() {

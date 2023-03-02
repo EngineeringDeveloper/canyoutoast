@@ -120,7 +120,6 @@
         console.log(showSmoke)
         if (particlesContainer) {
             if(showSmoke) {
-				particlesContainer.playEmitter()
 				setTimeout(() => {
                     if(showSmoke) {
                         particlesContainer.playEmitter()

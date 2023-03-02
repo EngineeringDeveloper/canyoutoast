@@ -95,12 +95,12 @@
 				delay: 0.01
 			},
 			size: {
-				width: 40,
-				height: 5
+				width: 30,
+				height: 10
 			},
 			position: {
 				x: 50,
-				y: 45
+				y: 50
 			}
 		}
 	};
@@ -120,7 +120,8 @@
         console.log(showSmoke)
         if (particlesContainer) {
             if(showSmoke) {
-                setTimeout(() => {
+				particlesContainer.playEmitter()
+				setTimeout(() => {
                     if(showSmoke) {
                         particlesContainer.playEmitter()
                     }
@@ -130,23 +131,13 @@
             }
         }
     }
-    $: op = showSmoke? "0" : "100%"
-
 </script>
 
-<!-- {#if showSmoke} -->
-<div style={`left: 50vw; top: 20vh; opacity ${op}; transition: opacity 1s`} class="absolute">
-    <svelte:component
-        this={ParticlesComponent}
-        id="tsparticles"
-        options={particlesConfig}
-        on:particlesLoaded={onParticlesLoaded}
-        {particlesInit}
-    />
-</div>
-<!-- {/if} -->
 
-
-<style>
-
-</style>
+<svelte:component
+this={ParticlesComponent}
+id="tsparticles"
+options={particlesConfig}
+on:particlesLoaded={onParticlesLoaded}
+{particlesInit}
+/>

@@ -1,14 +1,17 @@
 <script lang="ts">
 	// https://www.youtube.com/watch?v=G0HtHr46Awg&ab_channel=CodingArtist
+	import Smoke from '$lib/smoke.svelte';
 
 	export let status: 'waiting' | 'loading' | 'finished' | 'display' = 'waiting';
+
+	$: showSmoke = status == 'loading';
 </script>
 
+<Smoke {showSmoke} />
 <div
 	style="aspect-ratio: 1.41; margin-top: 20%"
 	class={`absolute w-80 sm:w-96 md:w-128 lg:w-132 xl:132 2xl:w-142 -z-10 ${status}-shake z-10`}
 >
-<!--  -->
 	<div class={`absolute toast toast-${status} moving`}>
 		<slot />
 	</div>
@@ -50,7 +53,7 @@
 
 <style>
 	.toast {
-		left: 35%; 
+		left: 35%;
 		bottom: 70%;
 		width: 45%;
 		height: 45%;
@@ -115,7 +118,7 @@
 	}
 
 	.toast-display {
-        transition: transform 1s, width 1s, height 1s, color 3s 1s;
+		transition: transform 1s, width 1s, height 1s, color 3s 1s;
 		transform: translate(-35%, 50%) rotate(5deg);
 		z-index: 50;
 		width: 90vw;
@@ -124,17 +127,16 @@
 	}
 
 	:global(.toast-display > div > a) {
-        transition: color 3s 1s;
-		color: #FC4C02;
+		transition: color 3s 1s;
+		color: #fc4c02;
 	}
 
-	@media(min-width: 1024px) {
+	@media (min-width: 1024px) {
 		.toast-display {
-			width: 120%;
-			height: 120%;
-			transform: translate(-35%, 20%) rotate(5deg);
+			width: 70vh;
+			height: 70vh;
+			transform: translate(-35%, 35%) rotate(5deg);
 		}
-
 	}
 
 	@keyframes shake {

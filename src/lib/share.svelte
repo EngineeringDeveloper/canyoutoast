@@ -6,7 +6,7 @@
 	export let showShare = false
 	export let desc: string = "I Just cooked this Toast on";
 
-	console.log(url)
+	// console.log(url)
 
 	$: position = showShare ? "circle" : "middle"
 </script>

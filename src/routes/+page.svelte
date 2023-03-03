@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { binLength as BinLength, effortDetails } from '$lib/types';
 	import type { PageData } from './$types';
-	import type { ComponentProps } from 'svelte';
+	import { onMount, type ComponentProps } from 'svelte';
 
 	import { Strava, stravaOAuth } from './api';
 
@@ -27,11 +27,13 @@
 
 	let devAllow = import.meta.env.PROD;
 	// let devAllow = true;
-	if (data.status) {
-		if (devAllow) {
-			runMain();
+	onMount(() => {
+		if (data.status) {
+			if (devAllow) {
+				runMain();
+			}
 		}
-	}
+	})
 
 	function runMain() {
 		status = 'loading';

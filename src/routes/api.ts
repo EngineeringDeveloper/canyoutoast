@@ -1,11 +1,17 @@
-import type { Activity, Athlete, fullAthlete, wattsStream, effort, effortDetails } from '$lib/types';
+import type {
+	Activity,
+	Athlete,
+	fullAthlete,
+	wattsStream,
+	effort,
+	effortDetails
+} from '$lib/types';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
 const stravaTokenURL = 'https://www.strava.com/oauth/token';
 const client_id = import.meta.env.DEV ? '102492' : '44340';
-const redirect_uri =
-import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'https://www.canyoutoast.com/';
+const redirect_uri = import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'https://www.canyoutoast.com/';
 
 // get cookie on server load
 
@@ -76,16 +82,16 @@ export class Strava {
 		return await this.authGET(athleteURL);
 	}
 
-	async getBestEffortlast30() {
+	async getBestEffortlast10() {
 		// 400W 30s moving average
 		const powerMinimum = 350;
 		const period = 30;
 
 		// last entry is ok: boolean not activity
-		const activities = Object.values(await this.last6WeeksActivities()).slice(0, -1);
+		const activities = Object.values(await this.last6WeeksActivities()).slice(0, 10);
 		// console.log('activities', activities);
-		const name = (await this.getAthlete()).firstname
-		const bestEfforts: effortDetails[] = []
+		const name = (await this.getAthlete()).firstname;
+		const bestEfforts: effortDetails[] = [];
 		for (const activity of activities) {
 			if (activity.device_watts) {
 				// or other handeler?
@@ -93,13 +99,11 @@ export class Strava {
 				const watts = await this.getActivityWattsStreams(String(activity.id));
 				// console.log(activity.id, watts);
 				const bestRideEffort = findBestEffort(watts[0].data, powerMinimum, period);
-				bestEfforts.push(
-					{
-						id: activity.id,
-						name,
-						...bestRideEffort
-					}
-				)
+				bestEfforts.push({
+					id: activity.id,
+					name,
+					...bestRideEffort
+				});
 			}
 		}
 		// console.log('best', bestEfforts);
@@ -109,12 +113,12 @@ export class Strava {
 				timeS: 0,
 				joules: 0,
 				id: null,
-				name,
+				name
 			};
 		}
 
 		const idxBest = idxMax(bestEfforts.map((x) => x.joules));
-		return bestEfforts[idxBest]
+		return bestEfforts[idxBest];
 	}
 
 	async getActivityWattsStreams(activityID: string): Promise<wattsStream> {
@@ -198,7 +202,7 @@ function findBestEffort(watts: number[], powerMinimum: number, period: number): 
 	});
 
 	const effortValue: number[] = [];
-	const efforts: effort[] = []
+	const efforts: effort[] = [];
 	let thisEffort: number[] = [];
 	// Split the movingAverage into efforts > powerMinimum
 	movingAverage.forEach((value) => {
@@ -215,8 +219,8 @@ function findBestEffort(watts: number[], powerMinimum: number, period: number): 
 		efforts.push({
 			power: effortJoules / thisEffort.length,
 			timeS: thisEffort.length,
-			joules: effortJoules,
-		})
+			joules: effortJoules
+		});
 		thisEffort = [];
 	});
 
@@ -224,12 +228,12 @@ function findBestEffort(watts: number[], powerMinimum: number, period: number): 
 		return {
 			power: 0,
 			timeS: 0,
-			joules:0,
+			joules: 0
 		};
 	}
 	// return the best effort
 	const bestEffort = idxMax(effortValue);
-	return efforts[bestEffort]
+	return efforts[bestEffort];
 }
 
 function max(array: number[]) {

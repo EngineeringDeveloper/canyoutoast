@@ -82,7 +82,7 @@ export class Strava {
 		return await this.authGET(athleteURL) as fullAthlete
 	}
 
-	async getBestEffortlast10(): Promise<effortDetails | Error> {
+	async getBestEffortlast10(): Promise<effortDetails> {
 		// 400W 30s moving average
 		const powerMinimum = 350;
 		const period = 30;

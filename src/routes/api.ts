@@ -79,16 +79,16 @@ export class Strava {
 
 	async getAthlete(): Promise<fullAthlete> {
 		const athleteURL = new URL('athlete', this.stravaApiURL);
-		return await this.authGET(athleteURL);
+		return await this.authGET(athleteURL) as fullAthlete
 	}
 
-	async getBestEffortlast10() {
+	async getBestEffortlast10(): Promise<effortDetails | Error> {
 		// 400W 30s moving average
 		const powerMinimum = 350;
 		const period = 30;
 
-		// last entry is ok: boolean not activity
 		const activities = Object.values(await this.last6WeeksActivities()).slice(0, 10);
+		
 		// console.log('activities', activities);
 		const name = (await this.getAthlete()).firstname;
 		const bestEfforts: effortDetails[] = [];
@@ -114,7 +114,7 @@ export class Strava {
 				joules: 0,
 				id: null,
 				name
-			};
+			} as effortDetails;
 		}
 
 		const idxBest = idxMax(bestEfforts.map((x) => x.joules));
@@ -125,7 +125,7 @@ export class Strava {
 		const athleteURL = new URL(`activities/${activityID}/streams`, this.stravaApiURL);
 		athleteURL.searchParams.append('keys', 'watts');
 		athleteURL.searchParams.append('keys_by_type', 'true');
-		return await this.authGET(athleteURL);
+		return await this.authGET(athleteURL) as wattsStream
 	}
 
 	async getMaxWatts() {
@@ -142,7 +142,7 @@ export class Strava {
 		return bestPower.max_watts;
 	}
 
-	async last6WeeksActivities(): Promise<Activity[]> {
+	async last6WeeksActivities() {
 		const sixWeeksInSeconds = 6 * 7 * 24 * 60 * 60;
 		return await this.listAthleteActivities(Date.now() / 1000 - sixWeeksInSeconds);
 	}
@@ -151,7 +151,7 @@ export class Strava {
 		const activitiesURL = new URL('athlete/activities', this.stravaApiURL);
 		activitiesURL.searchParams.append('after', since.toFixed(0));
 		// How to deal with Pages of activities
-		return await this.authGET(activitiesURL);
+		return await this.authGET(activitiesURL) as Activity[]
 	}
 
 	async authGET(url: URL) {
@@ -167,21 +167,20 @@ export class Strava {
 
 		// this functiom will handle response types
 		if (response.ok) {
-			return {
-				ok: true,
-				...(await response.json())
-			};
+			return await response.json()
 		}
 
 		// console.log(response.status, response.statusText);
+		let message = ""
 		switch (response.status) {
 			case 429:
 				// too many requests
-				return {
-					ok: false,
-					message: 'too many requests, please Wait 15 Minutes'
-				};
+				message = 'too many requests, please Wait 15 Minutes'
+				break
+			default:
+				message = `${response.status}: ${response.statusText}`
 		}
+		throw new Error(message)
 	}
 }
 

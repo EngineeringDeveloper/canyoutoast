@@ -10,6 +10,7 @@
 	import Footer from '$lib/footer.svelte';
 	import Meta from '$lib/meta.svelte';
 	import Dev from '$lib/dev.svelte';
+	import { browser as svelteBrowser } from '$app/environment';
 
 	export let data: PageData;
 	const bins: BinLength = [
@@ -49,6 +50,13 @@
 					status = 'display';
 				}, 2000);
 			}, 1000);
+		}).catch((error: Error) => {
+			if (svelteBrowser) {
+				// delete cookie
+				document.cookie = ""
+				window.confirm(`${error.message}, Authentication Cookies removed please try to refresh or report as a bug`)
+			}
+			// no resolve on SSR this is not required
 		});
 	}
 

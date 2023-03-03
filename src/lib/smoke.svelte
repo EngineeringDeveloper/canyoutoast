@@ -89,6 +89,7 @@
 			}
 		},
 		emitters: {
+			autoPlay: false,
 			direction: 'top',
 			rate: {
 				quantity: 1,
@@ -107,7 +108,6 @@
     let particlesContainer;
 	let onParticlesLoaded = (event) => {
 		particlesContainer = event.detail.particles;
-		console.log(particlesContainer)
 		// you can use particlesContainer to call all the Container class
 		// (from the core library) methods like play, pause, refresh, start, stop
 	};
@@ -117,7 +117,6 @@
 	};
 
     $: {
-        console.log(showSmoke)
         if (particlesContainer) {
             if(showSmoke) {
 				setTimeout(() => {

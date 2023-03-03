@@ -11,7 +11,7 @@ export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) =>
 		console.log("Found effort Object")
 		const effortObjectData: effortURLParams = JSON.parse(url.searchParams.get('obj')!);
 		const metaData = {
-			title: `${effortObjectData.name} just toasted with ${effortObjectData.power}`,
+			title: `${effortObjectData.name} just toasted with ${effortObjectData.power}W`,
 
 			image: `/images/toast/${effortObjectData.bin}.png`
 		}
@@ -61,7 +61,7 @@ export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) =>
 			return data;
 		}
 		data = {
-			data,
+			...data,
 			access_token,
 			refresh_token,
 			status: true

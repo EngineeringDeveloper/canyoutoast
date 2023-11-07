@@ -88,7 +88,6 @@ export class Strava {
 		const period = 30;
 
 		const activities = Object.values(await this.last6WeeksActivities()).reverse();
-		console.log(activities)
 		
 		// console.log('activities', activities);
 		const name = (await this.getAthlete()).firstname;

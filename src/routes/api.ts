@@ -87,11 +87,13 @@ export class Strava {
 		const powerMinimum = 350;
 		const period = 30;
 
-		const activities = Object.values(await this.last6WeeksActivities()).slice(0, 10);
+		const activities = Object.values(await this.last6WeeksActivities()).reverse();
+		console.log(activities)
 		
 		// console.log('activities', activities);
 		const name = (await this.getAthlete()).firstname;
 		const bestEfforts: effortDetails[] = [];
+		let i = 0
 		for (const activity of activities) {
 			if (activity.device_watts) {
 				// or other handeler?
@@ -104,6 +106,10 @@ export class Strava {
 					name,
 					...bestRideEffort
 				});
+				i ++
+			}
+			if (i == 10) {
+				break
 			}
 		}
 		// console.log('best', bestEfforts);
@@ -144,12 +150,13 @@ export class Strava {
 
 	async last6WeeksActivities() {
 		const sixWeeksInSeconds = 6 * 7 * 24 * 60 * 60;
-		return await this.listAthleteActivities(Date.now() / 1000 - sixWeeksInSeconds);
+		return (await this.listAthleteActivities(Date.now() / 1000 - sixWeeksInSeconds));
 	}
 
 	async listAthleteActivities(since: EpochTimeStamp) {
 		const activitiesURL = new URL('athlete/activities', this.stravaApiURL);
 		activitiesURL.searchParams.append('after', since.toFixed(0));
+		activitiesURL.searchParams.append('per_page', "84");
 		// How to deal with Pages of activities
 		return await this.authGET(activitiesURL) as Activity[]
 	}

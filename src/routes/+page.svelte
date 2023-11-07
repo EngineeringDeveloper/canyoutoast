@@ -54,7 +54,7 @@
 			if (svelteBrowser) {
 				// delete cookie
 				document.cookie = ""
-				window.confirm(`${error.message}, Authentication Cookies removed please try to refresh or report as a bug`)
+				// window.confirm(`${error.message}, Authentication Cookies removed please try to refresh or report as a bug`)
 			}
 			// no resolve on SSR this is not required
 		});

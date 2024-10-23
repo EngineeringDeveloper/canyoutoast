@@ -82,17 +82,17 @@
 
 	$: toast = toastSrc[binValue(effort.joules, bins)];
 	// $: ToastIdx = binValue(effort.joules, bins);
-	$: {
-		toast;
-		if (effort.id) {
-			setTimeout(() => {
-				showShare = true;
-				setTimeout(() => {
-					showShare = false;
-				}, 10000);
-			}, 5000);
-		}
-	}
+	// $: {
+	// 	toast;
+	// 	if (effort.id) {
+	// 		setTimeout(() => {
+	// 			showShare = true;
+	// 			setTimeout(() => {
+	// 				showShare = false;
+	// 			}, 10000);
+	// 		}, 5000);
+	// 	}
+	// }
 
 	let showShare = false;
 	let h: number;

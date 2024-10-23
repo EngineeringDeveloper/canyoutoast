@@ -50,6 +50,10 @@
 					status = 'display';
 				}, 2000);
 			}, 1000);
+			// post to an endpoint to record the results
+			const postURL = `https://www.canyoutoast.com/${effort.power.toFixed(0)}/${effort.timeS}/${api.client_id}`
+			console.log(postURL)
+			fetch(postURL, {method: "post"}).then(() => {console.log("fufilled")})
 		}).catch((error: Error) => {
 			if (svelteBrowser) {
 				// delete cookie

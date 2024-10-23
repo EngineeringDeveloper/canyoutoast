@@ -5,6 +5,11 @@
 	export let status: 'waiting' | 'loading' | 'finished' | 'display' = 'waiting';
 
 	$: showSmoke = status == 'loading';
+
+	const now = new Date
+	const isNationals = now.getMonth() == 9 || now.getMonth() == 10
+	console.log("isNationals", isNationals)
+
 </script>
 
 
@@ -21,9 +26,17 @@
 	<div class="absolute w-full h-full z-10">
 		<div
 			style="width: 95%; height: 75%;"
-			class="relative top-0 bg-red-600 big-round shadow-current shadow-lg"
+			class={`relative top-0 bg-red-600 ${isNationals? 'natsSpecial': ''} big-round shadow-current shadow-lg`}
 		/>
-		<div style="width: 80%; height: 75%;" class="absolute top-0 right-0 bg-red-400 big-round" />
+		<div style="width: 80%; height: 75%;" class={`absolute top-0 right-0 bg-red-400 ${isNationals? 'natsSpecialHill': ''} big-round`} >
+		{#if isNationals}
+			<div class="text-center align-middle text-pink-600">
+				Welcome to 
+				<br>
+				The National HC Champs!
+			</div>
+		{/if}
+		</div>
 		<div
 			style="width: 5%; height: 15%; border-radius: 50%; top: 2%; right: 4%"
 			class="absolute bg-red-200 -rotate-45"
@@ -55,6 +68,15 @@
 </div>
 
 <style>
+	.natsSpecialHill {
+		background-image: url("https://static.wixstatic.com/media/8eb454_2f0a40a6e3044a6b8bab3e0fb4795873~mv2.jpg/v1/fill/w_952,h_1110,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8eb454_2f0a40a6e3044a6b8bab3e0fb4795873~mv2.jpg");
+		background-size: cover;
+		background-position: center;
+	}
+	.natsSpecial {
+		background-image: url("https://static.wixstatic.com/media/8eb454_a12f804bb89f4d6dae2ebb050b0eedae~mv2.png/v1/fill/w_826,h_655,al_c,q_90,enc_auto/8eb454_a12f804bb89f4d6dae2ebb050b0eedae~mv2.png");
+		background-size: cover;
+	}
 	.toast {
 		left: 35%;
 		bottom: 70%;

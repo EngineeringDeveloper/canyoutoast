@@ -24,7 +24,7 @@ export async function stravaAuthenticate(
 	const tokenURL = new URL(stravaTokenURL);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', SECRET_clientSecret);
-	tokenURL.searchParams.append('code', token);
+	tokenURL.searchParams.append(grant_type == "authorization_code"? "code": grant_type, token);
 	tokenURL.searchParams.append('grant_type', grant_type);
 	const response = await fetch(tokenURL, {
 		method: 'POST'

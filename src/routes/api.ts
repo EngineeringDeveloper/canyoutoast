@@ -26,12 +26,14 @@ export async function stravaAuthenticate(
 	tokenURL.searchParams.append('client_secret', SECRET_clientSecret);
 	tokenURL.searchParams.append(grant_type == "authorization_code"? "code": grant_type, token);
 	tokenURL.searchParams.append('grant_type', grant_type);
+	console.log(tokenURL.toString())
 	const response = await fetch(tokenURL, {
 		method: 'POST'
 	});
 
 	if (!response.ok) {
 		console.error(response.statusText);
+		console.error(JSON.stringify(response))
 		// todo Resolve request types
 		return false;
 	}

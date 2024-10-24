@@ -5,7 +5,26 @@ import { SECRET_clientSecret } from '$env/static/private';
 import type { Cookies } from '@sveltejs/kit';
 import type { effortURLParams } from '$lib/types';
 
+import { SECRET_KV_REST_API_TOKEN, SECRET_KV_REST_API_URL } from '$env/static/private'
+// import { Redis } from '@upstash/redis'
+
+import { createClient } from 'redis';
+
+
 export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) => {
+	const client = createClient({
+		password: SECRET_KV_REST_API_TOKEN,
+		socket: {
+			host: SECRET_KV_REST_API_URL,
+			port: 13927
+		}
+	});
+	client.connect()
+
+	await client.set("test", "{power:10, test:100}")
+	console.log(await client.get("test"))
+
+
 	let data = {};
 	if (url.searchParams.has('obj')) {
 		console.log("Found effort Object")

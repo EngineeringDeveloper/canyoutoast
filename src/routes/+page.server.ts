@@ -5,6 +5,7 @@ import { SECRET_clientSecret } from '$env/static/private';
 import type { Cookies } from '@sveltejs/kit';
 import type { effortURLParams } from '$lib/types';
 
+
 export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) => {
 	let data = {};
 	if (url.searchParams.has('obj')) {
@@ -22,6 +23,7 @@ export const load = (async ({ cookies, url }: { cookies: Cookies; url: URL }) =>
 	}
 
 	// try and get data from cookie
+	console.log(cookies.getAll())
 	const access_token = cookies.get('access_token');
 	if (access_token) {
 		console.log('Found Cookie with access token attempting authentication');

@@ -10,7 +10,9 @@ import type {
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
 const stravaTokenURL = 'https://www.strava.com/oauth/token';
-const client_id = import.meta.env.DEV ? '102492' : '44340';
+// const client_id = import.meta.env.DEV ? '102492' : '44340';
+const client_id = '44340';
+
 const redirect_uri = import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'https://www.canyoutoast.com/';
 
 // get cookie on server load
@@ -26,12 +28,14 @@ export async function stravaAuthenticate(
 	tokenURL.searchParams.append('client_secret', SECRET_clientSecret);
 	tokenURL.searchParams.append(grant_type == "authorization_code"? "code": grant_type, token);
 	tokenURL.searchParams.append('grant_type', grant_type);
+	console.log(tokenURL.toString())
 	const response = await fetch(tokenURL, {
 		method: 'POST'
 	});
 
 	if (!response.ok) {
 		console.error(response.statusText);
+		console.error(JSON.stringify(response))
 		// todo Resolve request types
 		return false;
 	}
@@ -90,7 +94,9 @@ export class Strava {
 		const activities = Object.values(await this.last6WeeksActivities()).reverse();
 		
 		// console.log('activities', activities);
-		const name = (await this.getAthlete()).firstname;
+		const athlete= await this.getAthlete() 
+		const name = athlete.firstname;
+		const id = athlete.id;
 		const bestEfforts: effortDetails[] = [];
 		let i = 0
 		for (const activity of activities) {
@@ -103,6 +109,7 @@ export class Strava {
 				bestEfforts.push({
 					id: activity.id,
 					name,
+					athleteID: id,
 					...bestRideEffort
 				});
 				i ++
@@ -118,7 +125,8 @@ export class Strava {
 				timeS: 0,
 				joules: 0,
 				id: null,
-				name
+				name,
+				athleteID: id
 			} as effortDetails;
 		}
 

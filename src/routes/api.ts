@@ -10,7 +10,8 @@ import type {
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
 const stravaTokenURL = 'https://www.strava.com/oauth/token';
-const client_id = import.meta.env.DEV ? '102492' : '44340';
+// const client_id = import.meta.env.DEV ? '102492' : '44340';
+const client_id = '44340';
 const redirect_uri = import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'https://www.canyoutoast.com/';
 
 // get cookie on server load

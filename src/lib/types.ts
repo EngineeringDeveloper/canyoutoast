@@ -8,6 +8,7 @@ export interface effort {
 export interface effortDetails extends effort {
 	id: number | null;
 	name: string | null;
+	athleteID: number | null;
 }
 
 export interface effortURLParams{

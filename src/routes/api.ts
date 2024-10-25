@@ -92,7 +92,9 @@ export class Strava {
 		const activities = Object.values(await this.last6WeeksActivities()).reverse();
 		
 		// console.log('activities', activities);
-		const name = (await this.getAthlete()).firstname;
+		const athlete= await this.getAthlete() 
+		const name = athlete.firstname;
+		const id = athlete.id;
 		const bestEfforts: effortDetails[] = [];
 		let i = 0
 		for (const activity of activities) {
@@ -105,6 +107,7 @@ export class Strava {
 				bestEfforts.push({
 					id: activity.id,
 					name,
+					athleteID: id,
 					...bestRideEffort
 				});
 				i ++
@@ -120,7 +123,8 @@ export class Strava {
 				timeS: 0,
 				joules: 0,
 				id: null,
-				name
+				name,
+				athleteID: id
 			} as effortDetails;
 		}
 

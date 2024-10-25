@@ -19,10 +19,16 @@ export async function POST({ request }) {
 			port: 13927
 		}
 	});
-	client.connect()
-	
-	await client.set("test", "{power:10, test:100}")
-	console.log(await client.get("test"))
 
-	return json( effort , { status: 201 });
+	client.on('error', error => {
+		console.error(`Redis client error:`, error);
+	});
+
+	client.connect()
+	const id = `${effort.athleteID}-${effort.name}`
+	await client.set(id, JSON.stringify(effort))
+	// server log check
+	console.log(await client.get(id))
+
+	return json( {} , { status: 201 });
 }

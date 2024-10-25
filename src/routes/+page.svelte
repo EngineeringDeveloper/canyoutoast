@@ -22,17 +22,25 @@
 	let effort: effortDetails = { power: 0, joules: 0, timeS: 0, id: null, name: null };
 	// dev settings
 	// data.status = true
-	// effort = { power : 500, joules :60000, timeS:120, id: 8581239719, name: "Ryan"}
 
 	let status: ComponentProps<Toaster>['status'] = 'waiting';
 
 	let devAllow = import.meta.env.PROD;
 	// let devAllow = true;
 	onMount(() => {
+		// effort = { power : 500, joules :60000, timeS:120, id: 8581239719, name: "Ryan", athleteID:1234567}
+		// fetch('/effort', {
+		// 		method: 'POST',
+		// 		body: JSON.stringify(effort),
+		// 		headers: {
+		// 			'Content-Type': 'application/json'
+		// 		}
+		// 		})
 		if (data.status) {
 			if (devAllow) {
 				runMain();
 			}
+
 		}
 	})
 
@@ -51,13 +59,13 @@
 				}, 2000);
 			}, 1000);
 			// post to an endpoint to record the results
-			const response = fetch('/efford', {
+			const response = fetch('/effort', {
 			method: 'POST',
 			body: JSON.stringify(effort),
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		}).then(() => console.log("fufilled"))
+			})
 		}).catch((error: Error) => {
 			if (svelteBrowser) {
 				// delete cookie

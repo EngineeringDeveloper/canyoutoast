@@ -52,9 +52,6 @@ export async function stravaAuthenticate(
 
 //** Redirects the User to authorize with Strava */
 export function stravaOAuth() {
-	if (browser) {
-		redirect_uri = window.location.origin
-	}
 	const authURL = new URL(stravaOAuthURL);
 	authURL.searchParams.append('client_id', client_id);
 	authURL.searchParams.append('redirect_uri', redirect_uri);

@@ -7,7 +7,6 @@ import type {
 	effort,
 	effortDetails
 } from '$lib/types';
-import { onMount } from 'svelte';
 
 const stravaApiURL = 'https://www.strava.com/api/v3';
 const stravaOAuthURL = 'https://www.strava.com/oauth/authorize';
@@ -16,11 +15,6 @@ const stravaTokenURL = 'https://www.strava.com/oauth/token';
 const client_id = '44340';
 
 let redirect_uri = import.meta.env.DEV ? 'http://127.0.0.1:5173' : 'https://www.canyoutoast.com/';
-onMount(() => {
-	if (browser) {
-		redirect_uri = window.location.origin
-	}
-})
 
 // get cookie on server load
 
@@ -59,6 +53,9 @@ export async function stravaAuthenticate(
 
 //** Redirects the User to authorize with Strava */
 export function stravaOAuth() {
+	if (browser) {
+		redirect_uri = window.location.origin
+	}
 	const authURL = new URL(stravaOAuthURL);
 	authURL.searchParams.append('client_id', client_id);
 	authURL.searchParams.append('redirect_uri', redirect_uri);

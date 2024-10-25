@@ -1,4 +1,3 @@
-import { browser } from '$app/environment';
 import type {
 	Activity,
 	Athlete,

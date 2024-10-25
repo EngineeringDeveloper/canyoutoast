@@ -19,7 +19,7 @@
 
 	let api: Strava;
 
-	let effort: effortDetails = { power: 0, joules: 0, timeS: 0, id: null, name: null };
+	let effort: effortDetails = { power: 0, joules: 0, timeS: 0, id: null, name: null, athleteID: null };
 	// dev settings
 	// data.status = true
 
